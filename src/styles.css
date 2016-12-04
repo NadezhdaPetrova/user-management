@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+body {
+    background-color: #FAFAFA;
+}
+
+md-progress-circle.loading-center {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+}
+
+md-card {
+    margin: 0 15px;
+}

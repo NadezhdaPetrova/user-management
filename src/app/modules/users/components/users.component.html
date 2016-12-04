@@ -1,0 +1,5 @@
+<h1>Users</h1>
+
+<md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary"></md-progress-circle>
+
+<app-users-list *ngIf="!(isLoading$ | async)" [users]="users$ | async"></app-users-list>

@@ -1,0 +1,25 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: 1px solid #eee
+}
+
+thead tr {
+    display: table-row;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #999;
+}
+
+thead tr th {
+    padding: 5px 10px;
+    text-align: left;
+    font-weight: normal;
+}
+
+tbody tr td {
+    padding: 10px 10px;
+}
