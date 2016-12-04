@@ -1,27 +1,23 @@
-<md-card>
-    <md-card-content>
-        <table *ngIf="users.length">
-            <thead>
-                <tr>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Email address</th>
-                    <th>Date of birth</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of users">
-                    <td>{{user.firstName | contentFormat}}</td>
-                    <td>{{user.lastName | contentFormat}}</td>
-                    <td>{{user.email | contentFormat}}</td>
-                    <td>{{user.dateOfBirth | contentFormat}}</td>
-                </tr>
-            </tbody>
-        </table>
+<table *ngIf="users.length">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email address</th>
+            <th>Date of birth</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{user.firstName | contentFormat}}</td>
+            <td>{{user.lastName | contentFormat}}</td>
+            <td>{{user.email | contentFormat}}</td>
+            <td>{{user.dateOfBirth | contentFormat}}</td>
+        </tr>
+    </tbody>
+</table>
 
-        <div *ngIf="!users.length">
-            No users have been created yet.
-        </div>
-    </md-card-content>
-</md-card>
+<div *ngIf="!users.length">
+    No users have been created yet.
+</div>
     

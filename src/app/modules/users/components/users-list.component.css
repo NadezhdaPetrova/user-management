@@ -23,7 +23,3 @@ thead tr th {
 tbody tr td {
     padding: 10px 10px;
 }
-
-md-card {
-    overflow-x:auto;
-}

@@ -1,13 +1,18 @@
-<div class="container">
-    <h1>Users</h1>
+<md-card>
+    <md-card-title><h1>Users</h1></md-card-title>
+    <md-card-actions>
+        <button md-raised-button color="primary">Create User</button>
+    </md-card-actions>
+    <md-card-content>
+        <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary">
+        </md-progress-circle>
 
-    <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary"></md-progress-circle>
+        <div *ngIf="showGrid$ | async">
+            <app-users-list [users]="users$ | async" (userSelected)="userSelected($event)"></app-users-list>
+        </div>
 
-    <div *ngIf="showGrid$ | async">
-        <app-users-list [users]="users$ | async" (userSelected)="userSelected($event)"></app-users-list>
-    </div>
-
-    <div *ngIf="hasError$ | async">
-        <app-error [error]="error$ | async"></app-error>
-    </div>
-<div>
+        <div *ngIf="hasError$ | async">
+            <app-error [error]="error$ | async"></app-error>
+        </div>
+    </md-card-content>
+</md-card>

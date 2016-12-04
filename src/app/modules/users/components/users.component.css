@@ -1,9 +1,29 @@
 h1 {
     font-size: 3rem;
     color: #4A4A4A;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
-.container {
+md-card {
     margin: 10px;
+    overflow-x: auto;
+    min-height: 89vh;
+}
+
+@media only screen and (min-width: 500px) {
+    md-card-title {
+        width: 75%;
+        float: left;
+    }
+
+    md-card-actions {
+        width: 20%;
+        text-align: right;
+        float: right;
+        margin-top: 1.8rem;
+    }
+}
+
+md-card-actions {
+    padding: 5px 20px;    
 }
