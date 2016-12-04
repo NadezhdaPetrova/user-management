@@ -6,11 +6,13 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { ContentFormatPipe } from './pipes/content-format.pipe';
+import { ErrorComponent } from './components/error.component';
 
 @NgModule({
-    declarations: [ContentFormatPipe],
+    declarations: [ContentFormatPipe, ErrorComponent],
     exports: [
         ContentFormatPipe,
+        ErrorComponent,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,

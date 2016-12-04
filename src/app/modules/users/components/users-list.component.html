@@ -1,6 +1,6 @@
 <md-card>
     <md-card-content>
-        <table>
+        <table *ngIf="users.length">
             <thead>
                 <tr>
                     <th>First name</th>
@@ -18,6 +18,10 @@
                 </tr>
             </tbody>
         </table>
+
+        <div *ngIf="!users.length">
+            No users have been created yet.
+        </div>
     </md-card-content>
 </md-card>
     

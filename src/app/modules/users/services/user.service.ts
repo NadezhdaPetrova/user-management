@@ -51,7 +51,8 @@ export class UserService {
             observer = subscriber;
         });
 
-        setTimeout(() => observer.next(usersMock), 1000);
+        setTimeout(() => observer.next(usersMock), 2000);
+        // setTimeout(() => observer.error("The actual error"), 2000);
 
         return observable;
     }

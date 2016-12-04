@@ -17,12 +17,15 @@ export class UsersComponent implements OnInit {
   isLoading$: Observable<boolean>;
   hasError$: Observable<boolean>;
   error$: Observable<string>;
+  showGrid$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {
     this.users$ = store.select(fromRoot.getUserCollection);
     this.isLoading$ = store.select(fromRoot.getUserIsLoading);
     this.hasError$ = store.select(fromRoot.getUserHasError);
     this.error$ = store.select(fromRoot.getUserError);
+    this.showGrid$ = Observable.combineLatest(this.isLoading$, this.hasError$,
+                                (isLoading, hasError) => !isLoading && !hasError);
   }
 
   ngOnInit() {
