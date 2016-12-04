@@ -5,8 +5,12 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
+import { ContentFormatPipe } from './pipes/content-format.pipe';
+
 @NgModule({
+    declarations: [ContentFormatPipe],
     exports: [
+        ContentFormatPipe,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
