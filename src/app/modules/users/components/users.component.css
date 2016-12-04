@@ -1,12 +1,11 @@
 h1 {
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: #4A4A4A;
-    padding: 0 10px;
+    margin: 10px;
 }
 
 md-card {
     margin: 10px;
-    overflow-x: auto;
     min-height: 89vh;
 }
 
@@ -20,10 +19,14 @@ md-card {
         width: 20%;
         text-align: right;
         float: right;
-        margin-top: 1.8rem;
+        margin-top: 1.4rem;
     }
 }
 
 md-card-actions {
     padding: 5px 20px;    
+}
+
+md-card-content {
+    clear: both;
 }
