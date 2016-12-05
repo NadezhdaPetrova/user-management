@@ -5,10 +5,10 @@ export enum SortDirection {
 
 export class User {
     constructor(
-        public id: number,
-        public firstName: string,
-        public lastName: string,
-        public email: string,
-        public dateOfBirth: Date
+        public firstName = '',
+        public lastName = '',
+        public email = '',
+        public id?: number,
+        public dateOfBirth?: Date
     ) {}
 }

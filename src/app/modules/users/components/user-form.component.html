@@ -1,0 +1,37 @@
+<form #userForm="ngForm">
+    <div>
+        <md-input placeholder="First name" required
+                [(ngModel)]="user.firstName" name="firstName" #firstName="ngModel">
+        </md-input>
+        <alert type="danger" [hidden]="firstName.valid || firstName.pristine">
+          Fisrt name is required
+        </alert>
+    </div>
+    <div>
+        <md-input placeholder="Last name" required
+                [(ngModel)]="user.lastName" name="lastName" #lastName="ngModel">
+        </md-input>
+        <alert type="danger" [hidden]="lastName.valid || lastName.pristine">
+          Last name is required
+        </alert>
+    </div>
+    <div>
+        <md-input type="email" placeholder="Email" required
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                [(ngModel)]="user.email" name="email" #email="ngModel">
+        </md-input>
+        <div [hidden]="email.valid || email.pristine">
+            <alert type="danger" *ngIf="email.errors && email.errors.required">
+                Email is required
+            </alert>
+            <alert type="danger" *ngIf="email.errors && email.errors.pattern">
+                Email is invalid
+            </alert>
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button md-raised-button color="primary" [disabled]="!userForm.form.valid" (click)="save.emit(userForm.value)">Save</button>
+        <button md-raised-button color="accent" (click)="cancel.emit()">Cancel</button>
+    </div>
+</form>

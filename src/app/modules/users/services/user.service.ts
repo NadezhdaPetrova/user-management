@@ -56,4 +56,18 @@ export class UserService {
 
         return observable;
     }
+
+    createUser(user: User): Observable<User> {
+        let observer;
+        const observable = Observable.create((subscriber: Subscriber<Array<User>>) => {
+            observer = subscriber;
+        });
+
+        const newUser = Object.assign({}, user, {id: 40});
+
+        setTimeout(() => observer.next(newUser), 2000);
+        // setTimeout(() => observer.error("The actual error. Very very long error that shows nothing but is long."), 2000);
+
+        return observable;
+    }
 }

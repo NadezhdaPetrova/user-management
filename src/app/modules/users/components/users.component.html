@@ -1,7 +1,7 @@
 <md-card>
     <md-card-title><h1>Users</h1></md-card-title>
     <md-card-actions>
-        <button md-raised-button color="primary">Create User</button>
+        <button md-raised-button color="primary" (click)="create()">Create User</button>
     </md-card-actions>
     <md-card-content>
         <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary">

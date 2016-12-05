@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MdDialogRef, MdDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
+import { UserComponent } from './user.component';
 
 import { User } from '../models';
 import * as fromRoot from '../../../reducers';
@@ -19,7 +22,9 @@ export class UsersComponent implements OnInit {
   error$: Observable<string>;
   showGrid$: Observable<boolean>;
 
-  constructor(private store: Store<fromRoot.State>) {
+  dialogRef: MdDialogRef<UserComponent>;
+
+  constructor(private store: Store<fromRoot.State>, private dialog: MdDialog) {
     this.users$ = store.select(fromRoot.getUserCollection);
     this.isLoading$ = store.select(fromRoot.getUserIsLoading);
     this.hasError$ = store.select(fromRoot.getUserHasError);
@@ -30,5 +35,15 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new user.LoadAction());
+  }
+
+  create() {
+    this.dialogRef = this.dialog.open(UserComponent, {
+      disableClose: true
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      // this.dialogRef = null;
+    });
   }
 }
