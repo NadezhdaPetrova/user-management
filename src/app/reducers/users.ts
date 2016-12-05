@@ -30,6 +30,7 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
         case user.ActionTypes.LOAD: {
             return Object.assign({}, state, {
                 isLoading: true,
+                dialogSaved: false,
                 user: new User()
             });
         }
