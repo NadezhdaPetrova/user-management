@@ -8,9 +8,10 @@ export interface State {
     error: string;
     user: User;
     dialogLoading: boolean;
-    dialogSaved: boolean;
+    dialogUserSaved: boolean;
     dialogHasError: boolean;
     dialogError: string;
+    showSuccessMessage: boolean;
 }
 
 const initialState: State = {
@@ -20,9 +21,10 @@ const initialState: State = {
     error: null,
     user: new User(),
     dialogLoading: false,
-    dialogSaved: false,
+    dialogUserSaved: false,
     dialogHasError: false,
-    dialogError: null
+    dialogError: null,
+    showSuccessMessage: false
 };
 
 export function reducer(state: State = initialState, action: user.Actions): State {
@@ -30,7 +32,7 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
         case user.ActionTypes.LOAD: {
             return Object.assign({}, state, {
                 isLoading: true,
-                dialogSaved: false,
+                dialogUserSaved: false,
                 user: new User()
             });
         }
@@ -55,7 +57,7 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
         case user.ActionTypes.CREATE_SUCCESS: {
             return Object.assign({}, state, {
                 dialogLoading: false,
-                dialogSaved: true,
+                dialogUserSaved: true,
                 user: action.payload
             });
         }
@@ -64,6 +66,16 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
                 dialogLoading: false,
                 dialogHasError: true,
                 dialogError: action.payload
+            });
+        }
+        case user.ActionTypes.SHOW_SUCCESS_MESSAGE: {
+            return Object.assign({}, state, {
+                showSuccessMessage: true
+            });
+        }
+        case user.ActionTypes.HIDE_SUCCESS_MESSAGE: {
+            return Object.assign({}, state, {
+                showSuccessMessage: false
             });
         }
         default: {
@@ -78,6 +90,7 @@ export const getHasError = (state: State) => state.hasError;
 export const getError = (state: State) => state.error;
 export const getUser = (state: State) => state.user;
 export const getDialogLoading = (state: State) => state.dialogLoading;
-export const getDialogSaved = (state: State) => state.dialogSaved;
+export const getDialogUserSaved = (state: State) => state.dialogUserSaved;
 export const getDialogHasError = (state: State) => state.dialogHasError;
 export const getDialogError = (state: State) => state.dialogError;
+export const getShowSuccessMessage = (state: State) => state.showSuccessMessage;

@@ -16,3 +16,13 @@ md-progress-circle.loading-center {
 md-card {
     margin: 0 15px;
 }
+
+.elementToFadeInAndOut {
+    opacity: 1;
+    animation: fade 5s linear;
+}
+
+@keyframes fade {
+  0%, 100% { opacity: 0 }
+  20%, 80% { opacity: 1 }
+}

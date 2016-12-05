@@ -9,7 +9,9 @@ export const ActionTypes = {
     LOAD_FAIL: type('[Users] Load Fail'),
     CREATE: type('[User] Create'),
     CREATE_SUCCESS: type('[User] Create Seccess'),
-    CREATE_FAIL: type('[User] Create Fail')
+    CREATE_FAIL: type('[User] Create Fail'),
+    SHOW_SUCCESS_MESSAGE: type('[User] Show Success Message'),
+    HIDE_SUCCESS_MESSAGE: type('[User] Hide Success Message')
 };
 
 export class LoadAction implements Action {
@@ -46,9 +48,19 @@ export class CreateFailAction implements Action {
     constructor(public payload: string) { }
 }
 
+export class ShowSuccessMessageAction implements Action {
+    type = ActionTypes.SHOW_SUCCESS_MESSAGE;
+}
+
+export class HideSuccessMessageAction implements Action {
+    type = ActionTypes.HIDE_SUCCESS_MESSAGE;
+}
+
 export type Actions = LoadAction
                     | LoadSuccessAction
                     | LoadFailAction
                     | CreateAction
                     | CreateSuccessAction
-                    | CreateFailAction;
+                    | CreateFailAction
+                    | ShowSuccessMessageAction
+                    | HideSuccessMessageAction;

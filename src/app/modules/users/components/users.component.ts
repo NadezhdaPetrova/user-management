@@ -21,12 +21,14 @@ export class UsersComponent implements OnInit {
   hasError$: Observable<boolean>;
   error$: Observable<string>;
   showGrid$: Observable<boolean>;
+  showSuccessMessage$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>, private dialog: MdDialog) {
-    this.users$ = store.select(fromRoot.getUserCollection);
-    this.isLoading$ = store.select(fromRoot.getUserIsLoading);
-    this.hasError$ = store.select(fromRoot.getUserHasError);
-    this.error$ = store.select(fromRoot.getUserError);
+    this.users$ = this.store.select(fromRoot.getUserCollection);
+    this.isLoading$ = this.store.select(fromRoot.getUserIsLoading);
+    this.hasError$ = this.store.select(fromRoot.getUserHasError);
+    this.error$ = this.store.select(fromRoot.getUserError);
+    this.showSuccessMessage$ = this.store.select(fromRoot.getUserShowSuccessMessage);
     this.showGrid$ = Observable.combineLatest(this.isLoading$, this.hasError$,
                                 (isLoading, hasError) => !isLoading && !hasError);
   }

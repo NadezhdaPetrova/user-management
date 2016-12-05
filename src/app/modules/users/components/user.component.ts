@@ -27,10 +27,13 @@ export class UserComponent {
         this.hasError$ = this.store.select(fromRoot.getUserDialogHasError);
         this.error$ = this.store.select(fromRoot.getUserDialogError);
 
-        const saved$ = this.store.select(fromRoot.getUserDialogSaved);
-        saved$.subscribe(isSaved => {
+        const userSaved$ = this.store.select(fromRoot.getUserDialogUserSaved);
+        userSaved$.subscribe(isSaved => {
             if (isSaved) {
                 this.store.dispatch(new userActions.LoadAction());
+                this.store.dispatch(new userActions.ShowSuccessMessageAction());
+                setTimeout(() => this.store.dispatch(new userActions.HideSuccessMessageAction()), 5000);
+
                 this.dialogRef.close();
             }
         });
@@ -38,7 +41,6 @@ export class UserComponent {
 
     save(user: User) {
         this.store.dispatch(new userActions.CreateAction(user));
-        // this.dialogRef.close();
     }
 
     cancel() {
