@@ -3,11 +3,11 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import { SortDirection, User } from '../models';
+import { SortDirection, User, PageInfo } from '../models';
 
-// const sortDirectionValue = new Map()
-//     .set(SortDirection.Ascending, 'asc')
-//     .set(SortDirection.Descending, 'desc');
+const sortDirectionValue = new Map()
+    .set(SortDirection.Ascending, 'asc')
+    .set(SortDirection.Descending, 'desc');
 
 @Injectable()
 export class UserService {
@@ -15,11 +15,12 @@ export class UserService {
 
     constructor(private http: Http) { }
 
-    getUsers(page?: number, size?: number, sort?: string, sortDirection?: SortDirection): Observable<Array<User>> {
+    getUsers(pageInfo?: PageInfo): Observable<Array<User>> {
         // TODO: should I add a client validation???
-        // TODO: improve the service to use the parameters
 
-        return this.http.get(this.serverUrl)
+        const url = this.getServiceUrl(pageInfo);
+
+        return this.http.get(url)
                         .map((result: Response) => {
                             const body = result.json();
                             return body.content || [];
@@ -40,5 +41,34 @@ export class UserService {
                             const body = result.json();
                             return Observable.throw(body.message);
                         });
+    }
+
+    getServiceUrl(pageInfo: PageInfo): string {
+        let url = this.serverUrl;
+
+        if (!pageInfo || !pageInfo.page || !pageInfo.size || !pageInfo.sort) {
+            return url;
+        }
+
+        url = url + '?';
+
+        if (pageInfo.page) {
+            url = `${url}page=${pageInfo.page}&`;
+        }
+        if (pageInfo.size) {
+            url = `${url}size=${pageInfo.size}&`;
+        }
+        if (pageInfo.sort) {
+            url = `${url}sort=${pageInfo.sort.property}`;
+            if (pageInfo.sort.direction) {
+                url = `${url},${sortDirectionValue.get(pageInfo.sort.direction)}`;
+            }
+        }
+
+        if (url.endsWith('&')) {
+            url = url.slice(0, -1);
+        }
+
+        return url;
     }
 }

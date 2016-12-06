@@ -1,7 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { User } from '../modules/users/models';
+import { User, SortDescriptor } from '../modules/users/models';
 import { type } from '../utils';
+
+// TODO: extract actions nad reducers in separate files
 
 export const ActionTypes = {
     LOAD: type('[Users] Load users'),
@@ -11,7 +13,8 @@ export const ActionTypes = {
     CREATE_SUCCESS: type('[User] Create Seccess'),
     CREATE_FAIL: type('[User] Create Fail'),
     SHOW_SUCCESS_MESSAGE: type('[User] Show Success Message'),
-    HIDE_SUCCESS_MESSAGE: type('[User] Hide Success Message')
+    HIDE_SUCCESS_MESSAGE: type('[User] Hide Success Message'),
+    SORT_COLUMN: type('[User] Sort Column')
 };
 
 export class LoadAction implements Action {
@@ -56,6 +59,12 @@ export class HideSuccessMessageAction implements Action {
     type = ActionTypes.HIDE_SUCCESS_MESSAGE;
 }
 
+export class SortColumnAction implements Action {
+    type = ActionTypes.SORT_COLUMN;
+
+    constructor(public payload: SortDescriptor) { }
+}
+
 export type Actions = LoadAction
                     | LoadSuccessAction
                     | LoadFailAction
@@ -63,4 +72,5 @@ export type Actions = LoadAction
                     | CreateSuccessAction
                     | CreateFailAction
                     | ShowSuccessMessageAction
-                    | HideSuccessMessageAction;
+                    | HideSuccessMessageAction
+                    | SortColumnAction;

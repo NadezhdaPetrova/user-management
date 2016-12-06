@@ -12,3 +12,14 @@ export class User {
         public dateOfBirth?: Date
     ) {}
 }
+
+export interface SortDescriptor {
+    property: string;
+    direction?: SortDirection;
+}
+
+export interface PageInfo {
+    page?: number;
+    size?: number;
+    sort?: SortDescriptor;
+}

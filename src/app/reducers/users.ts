@@ -78,6 +78,11 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
                 showSuccessMessage: false
             });
         }
+        case user.ActionTypes.SORT_COLUMN: {
+            return Object.assign({}, state, {
+                isLoading: true
+            });
+        }
         default: {
             return state;
         }
