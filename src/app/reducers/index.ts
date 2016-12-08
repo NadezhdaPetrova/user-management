@@ -30,6 +30,7 @@ export function reducer(state: any, action: any) {
 export const getUsersState = (state: State) => state.users;
 
 export const getUserCollection = createSelector(getUsersState, fromUsers.getCollection);
+export const getUsersPageInfo = createSelector(getUsersState, fromUsers.getPageInfo);
 export const getUserIsLoading = createSelector(getUsersState, fromUsers.getIsLoading);
 export const getUserHasError = createSelector(getUsersState, fromUsers.getHasError);
 export const getUserError = createSelector(getUsersState, fromUsers.getError);
@@ -39,3 +40,6 @@ export const getUserDialogUserSaved = createSelector(getUsersState, fromUsers.ge
 export const getUserDialogHasError = createSelector(getUsersState, fromUsers.getDialogHasError);
 export const getUserDialogError = createSelector(getUsersState, fromUsers.getDialogError);
 export const getUserShowSuccessMessage = createSelector(getUsersState, fromUsers.getShowSuccessMessage);
+export const getTotalUsers = createSelector(getUsersState, fromUsers.getTotalUsers);
+export const getUsersPerPage = createSelector(getUsersState, fromUsers.getUsersPerPage);
+export const getUsersCurrentPage = createSelector(getUsersState, fromUsers.getCurrentPage);

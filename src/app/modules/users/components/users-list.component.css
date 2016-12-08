@@ -22,8 +22,23 @@ thead tr th {
     padding: 5px 10px;
     text-align: left;
     font-weight: normal;
+    cursor: pointer;
 }
 
 tbody tr td {
     padding: 10px 10px;
+}
+
+.sorted-asc {
+    width: 16px;
+    height: 16px;
+    background: url('../../../../assets/asc.png');
+    display: inline-block;
+}
+
+.sorted-desc {
+    width: 16px;
+    height: 16px;
+    background: url('../../../../assets/desc.png');
+    display: inline-block;
 }

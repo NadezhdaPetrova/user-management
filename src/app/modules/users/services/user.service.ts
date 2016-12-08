@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import { SortDirection, User, PageInfo } from '../models';
+import { SortDirection, User, UsersInfo, PageInfo } from '../models';
 
 const sortDirectionValue = new Map()
     .set(SortDirection.Ascending, 'asc')
@@ -15,7 +15,7 @@ export class UserService {
 
     constructor(private http: Http) { }
 
-    getUsers(pageInfo?: PageInfo): Observable<Array<User>> {
+    getUsers(pageInfo?: PageInfo): Observable<UsersInfo> {
         // TODO: should I add a client validation???
 
         const url = this.getServiceUrl(pageInfo);
@@ -23,7 +23,8 @@ export class UserService {
         return this.http.get(url)
                         .map((result: Response) => {
                             const body = result.json();
-                            return body.content || [];
+                            const usersInfo = this.generateUsersInfo(body);
+                            return usersInfo;
                         })
                         .catch(result => {
                             const body = result.json();
@@ -43,24 +44,27 @@ export class UserService {
                         });
     }
 
-    getServiceUrl(pageInfo: PageInfo): string {
+    private getServiceUrl(pageInfo: PageInfo): string {
         let url = this.serverUrl;
 
-        if (!pageInfo || !pageInfo.page || !pageInfo.size || !pageInfo.sort) {
+        if (!this.isSet(pageInfo) ||
+            !this.isSet(pageInfo.page) ||
+            !this.isSet(pageInfo.size) ||
+            !this.isSet(pageInfo.sort)) {
             return url;
         }
 
         url = url + '?';
 
-        if (pageInfo.page) {
-            url = `${url}page=${pageInfo.page}&`;
+        if (this.isSet(pageInfo.page)) {
+            url = `${url}page=${pageInfo.page - 1}&`;
         }
-        if (pageInfo.size) {
+        if (this.isSet(pageInfo.size)) {
             url = `${url}size=${pageInfo.size}&`;
         }
-        if (pageInfo.sort) {
+        if (this.isSet(pageInfo.sort)) {
             url = `${url}sort=${pageInfo.sort.property}`;
-            if (pageInfo.sort.direction) {
+            if (this.isSet(pageInfo.sort.direction)) {
                 url = `${url},${sortDirectionValue.get(pageInfo.sort.direction)}`;
             }
         }
@@ -70,5 +74,20 @@ export class UserService {
         }
 
         return url;
+    }
+
+    private isSet(item): boolean {
+        return item !== undefined && item !== null;
+    }
+
+    private generateUsersInfo(item): UsersInfo {
+        const usersInfo = new UsersInfo(
+            item.content,
+            item.totalElements,
+            item.size,
+            item.number
+        );
+
+        return usersInfo;
     }
 }

@@ -11,8 +11,17 @@
         <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary">
         </md-progress-circle>
 
-        <div *ngIf="showGrid$ | async">
-            <app-users-list [users]="users$ | async" (userSelected)="userSelected($event)"></app-users-list>
+        <div *ngIf="!(hasError$ | async)">
+            <app-users-list [users]="users$ | async" (sort)="sort($event)" [currentSorting]="pageInfo.sort"></app-users-list>
+
+            <div *ngIf="!((users$ | async).length) && !(isLoading$ | async)">
+                No users have been created yet.
+            </div>
+
+            <app-pagination *ngIf="showNavigation$ | async"
+                [totalItems]="totalUsers$ | async" [currentPage]="currentPage$ | async" 
+                [itemsPerPage]="usersPerPage$ | async" (pageChanged)="pageChanged($event)">
+            </app-pagination>
         </div>
 
         <div *ngIf="hasError$ | async">

@@ -1,6 +1,6 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { User } from '../models';
+import { User, SortDirection } from '../models';
 
 @Component({
     selector: 'app-users-list',
@@ -10,4 +10,12 @@ import { User } from '../models';
 })
 export class UsersListComponent {
     @Input() users: Array<User>;
+    @Input() currentSorting;
+    @Output() sort: EventEmitter<string> = new EventEmitter<string>();
+
+    SortDirection = SortDirection;
+
+    isColumnSorted(property: string, sortDirection: SortDirection) {
+        return this.currentSorting.property === property && this.currentSorting.direction === sortDirection;
+    }
 }

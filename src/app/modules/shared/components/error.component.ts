@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-error',
-    templateUrl: './error.component.html'
+    templateUrl: './error.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorComponent {
     @Input() error: string;

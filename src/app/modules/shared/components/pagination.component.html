@@ -1,0 +1,4 @@
+<pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="currentPage" 
+        [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged.emit($event)"
+        class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+</pagination>

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
 import * as userActions from '../actions/user';
-import { User } from '../modules/users/models';
+import { User, UsersInfo, PageInfo } from '../modules/users/models';
 import { UserService } from '../modules/users/services/user.service';
 
 @Injectable()
@@ -13,9 +13,10 @@ export class UserEffects {
     @Effect()
     loadUsers$: Observable<Action> = this.actions$
     .ofType(userActions.ActionTypes.LOAD)
-    .switchMap(() => {
-        return this.userService.getUsers()
-            .map((users: Array<User>) => new userActions.LoadSuccessAction(users))
+    .map((action: userActions.LoadAction) => action.payload)
+    .switchMap((pageInfo: PageInfo) => {
+        return this.userService.getUsers(pageInfo)
+            .map((usersInfo: UsersInfo) => new userActions.LoadSuccessAction(usersInfo))
             .catch(error => of(new userActions.LoadFailAction(error)));
     });
 

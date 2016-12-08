@@ -2,10 +2,22 @@
     <table *ngIf="users.length">
         <thead>
             <tr>
-                <th>First name <img src="../../../../assets/asc.png"/></th>
-                <th>Last name</th>
-                <th>Email address</th>
-                <th>Date of birth</th>
+                <th (click)="sort.emit('firstName')">
+                    <span>First name</span>
+                    <div [ngClass]="{'sorted-asc': isColumnSorted('firstName', SortDirection.Ascending), 'sorted-desc': isColumnSorted('firstName', SortDirection.Descending)}"></div>
+                </th>
+                <th (click)="sort.emit('lastName')">
+                    <span>Last name</span>
+                    <div [ngClass]="{'sorted-asc': isColumnSorted('lastName', SortDirection.Ascending), 'sorted-desc': isColumnSorted('lastName', SortDirection.Descending)}"></div>
+                </th>
+                <th (click)="sort.emit('email')">
+                    <span>Email</span>
+                    <div [ngClass]="{'sorted-asc': isColumnSorted('email', SortDirection.Ascending), 'sorted-desc': isColumnSorted('email', SortDirection.Descending)}"></div>
+                </th>
+                <th (click)="sort.emit('dateOfBirth')">
+                    <span>Date of birth</span>
+                    <div [ngClass]="{'sorted-asc': isColumnSorted('dateOfBirth', SortDirection.Ascending), 'sorted-desc': isColumnSorted('dateOfBirth', SortDirection.Descending)}"></div>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +29,4 @@
             </tr>
         </tbody>
     </table>
-
-    <div *ngIf="!users.length">
-        No users have been created yet.
-    </div>
 </div>

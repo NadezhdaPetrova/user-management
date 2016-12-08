@@ -1,8 +1,9 @@
-import { User } from '../modules/users/models';
+import { User, PageInfo, SortDirection } from '../modules/users/models';
 import * as user from '../actions/user';
 
 export interface State {
     collection: Array<User>;
+    pageInfo: PageInfo;
     isLoading: boolean;
     hasError: boolean;
     error: string;
@@ -12,10 +13,23 @@ export interface State {
     dialogHasError: boolean;
     dialogError: string;
     showSuccessMessage: boolean;
+    totalUsers: number;
+    usersPerPage: number;
+    currentPage: number;
 }
+
+const defaultPageInfo: PageInfo = {
+    page: 1,
+    size: 10,
+    sort: {
+        property: 'firstName',
+        direction: SortDirection.Ascending
+    }
+};
 
 const initialState: State = {
     collection: [],
+    pageInfo: defaultPageInfo,
     isLoading: true,
     hasError: false,
     error: null,
@@ -24,7 +38,10 @@ const initialState: State = {
     dialogUserSaved: false,
     dialogHasError: false,
     dialogError: null,
-    showSuccessMessage: false
+    showSuccessMessage: false,
+    totalUsers: null,
+    usersPerPage: defaultPageInfo.size,
+    currentPage: defaultPageInfo.page
 };
 
 export function reducer(state: State = initialState, action: user.Actions): State {
@@ -33,12 +50,16 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
             return Object.assign({}, state, {
                 isLoading: true,
                 dialogUserSaved: false,
+                pageInfo: action.payload,
                 user: new User()
             });
         }
         case user.ActionTypes.LOAD_SUCCESS: {
             return Object.assign({}, state, {
-                collection: action.payload,
+                collection: action.payload.collection,
+                totalUsers: action.payload.totalUsers,
+                usersPerPage: action.payload.usersPerPage,
+                currentPage: action.payload.currentPage + 1,
                 isLoading: false
             });
         }
@@ -78,11 +99,6 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
                 showSuccessMessage: false
             });
         }
-        case user.ActionTypes.SORT_COLUMN: {
-            return Object.assign({}, state, {
-                isLoading: true
-            });
-        }
         default: {
             return state;
         }
@@ -90,6 +106,7 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
 }
 
 export const getCollection = (state: State) => state.collection;
+export const getPageInfo = (state: State) => state.pageInfo;
 export const getIsLoading = (state: State) => state.isLoading;
 export const getHasError = (state: State) => state.hasError;
 export const getError = (state: State) => state.error;
@@ -99,3 +116,6 @@ export const getDialogUserSaved = (state: State) => state.dialogUserSaved;
 export const getDialogHasError = (state: State) => state.dialogHasError;
 export const getDialogError = (state: State) => state.dialogError;
 export const getShowSuccessMessage = (state: State) => state.showSuccessMessage;
+export const getTotalUsers = (state: State) => state.totalUsers;
+export const getUsersPerPage = (state: State) => state.usersPerPage;
+export const getCurrentPage = (state: State) => state.currentPage;

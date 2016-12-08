@@ -10,7 +10,16 @@ export class User {
         public email = '',
         public id?: number,
         public dateOfBirth?: Date
-    ) {}
+    ) { }
+}
+
+export class UsersInfo {
+    constructor(
+        public collection: Array<User>,
+        public totalUsers: number,
+        public usersPerPage: number,
+        public currentPage: number
+    ) { }
 }
 
 export interface SortDescriptor {
