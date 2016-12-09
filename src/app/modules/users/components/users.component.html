@@ -13,7 +13,8 @@
 
         <div *ngIf="!(hasError$ | async)">
             <app-users-list [users]="users$ | async" [currentSorting]="pageInfo.sort"
-                (sort)="sort($event)" (delete)="delete($event)">
+                (sort)="sort($event)" (delete)="delete($event)"
+                [ngClass]="{disabled: (disableGrid$ | async)}">
             </app-users-list>
 
             <div *ngIf="!((users$ | async).length) && !(isLoading$ | async)">

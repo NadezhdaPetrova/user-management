@@ -45,6 +45,7 @@ export const getUserToastType = createSelector(getUsersState, fromUsers.getToast
 export const getTotalUsers = createSelector(getUsersState, fromUsers.getTotalUsers);
 export const getUsersPerPage = createSelector(getUsersState, fromUsers.getUsersPerPage);
 export const getUsersCurrentPage = createSelector(getUsersState, fromUsers.getCurrentPage);
+export const getUsersDeletionInProgress = createSelector(getUsersState, fromUsers.getDeletionInProgress);
 export const getUsersDeletionSuccessful = createSelector(getUsersState, fromUsers.getDeletionSuccessful);
 export const getUsersDeletionHasError = createSelector(getUsersState, fromUsers.getDeletionHasError);
 export const getUsersDeletionError = createSelector(getUsersState, fromUsers.getDeletionError);

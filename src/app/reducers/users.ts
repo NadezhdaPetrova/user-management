@@ -18,6 +18,7 @@ export interface State {
     totalUsers: number;
     usersPerPage: number;
     currentPage: number;
+    deletionInProgress: boolean;
     deletionSuccessful: boolean;
     deletionHasError: boolean;
     deletionError: string;
@@ -49,6 +50,7 @@ const initialState: State = {
     totalUsers: null,
     usersPerPage: defaultPageInfo.size,
     currentPage: defaultPageInfo.page,
+    deletionInProgress: false,
     deletionSuccessful: false,
     deletionHasError: false,
     deletionError: null
@@ -114,13 +116,20 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
                 deletionError: null
             });
         }
+        case user.ActionTypes.DELETE: {
+            return Object.assign({}, state, {
+               deletionInProgress: true
+            });
+        }
         case user.ActionTypes.DELETE_SUCCESS: {
             return Object.assign({}, state, {
+                deletionInProgress: false,
                 deletionSuccessful: true
             });
         }
         case user.ActionTypes.DELETE_FAIL: {
             return Object.assign({}, state, {
+                deletionInProgress: false,
                 deletionHasError: true,
                 deletionError: action.payload
             });
@@ -147,6 +156,7 @@ export const getToastType = (state: State) => state.toastType;
 export const getTotalUsers = (state: State) => state.totalUsers;
 export const getUsersPerPage = (state: State) => state.usersPerPage;
 export const getCurrentPage = (state: State) => state.currentPage;
+export const getDeletionInProgress = (state: State) => state.deletionInProgress;
 export const getDeletionSuccessful = (state: State) => state.deletionSuccessful;
 export const getDeletionHasError = (state: State) => state.deletionHasError;
 export const getDeletionError = (state: State) => state.deletionError;

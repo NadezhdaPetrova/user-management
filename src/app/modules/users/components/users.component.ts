@@ -29,6 +29,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   usersPerPage$: Observable<number>;
   currentPage$: Observable<number>;
   showNavigation$: Observable<boolean>;
+  disableGrid$: Observable<boolean>;
 
   private pageInfo: PageInfo;
 
@@ -69,6 +70,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       }
     });
 
+    const deletionInProgress$ = this.store.select(fromRoot.getUsersDeletionInProgress);
+    this.disableGrid$ = Observable.combineLatest(deletionInProgress$, this.isLoading$,
+      (deletionInProgress: boolean, isLoading: boolean) => deletionInProgress || isLoading);
     const deletionError$ = this.store.select(fromRoot.getUsersDeletionError);
     const deletionHasError$ = this.store.select(fromRoot.getUsersDeletionHasError);
     const showDeletionError$ = Observable.combineLatest(deletionHasError$, deletionError$,
