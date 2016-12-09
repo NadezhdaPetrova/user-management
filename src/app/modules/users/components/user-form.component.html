@@ -24,7 +24,7 @@
             <alert type="danger" *ngIf="email.errors && email.errors.required">
                 Email is required
             </alert>
-            <alert type="danger" *ngIf="email.errors && email.errors.pattern">
+            <alert type="danger" *ngIf="email.touched && email.errors && email.errors.pattern">
                 Email is invalid
             </alert>
         </div>
