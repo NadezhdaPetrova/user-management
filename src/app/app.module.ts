@@ -1,5 +1,5 @@
+import { NgModule, ValueProvider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { MaterialModule } from '@angular/material';
 
 import { StoreModule } from '@ngrx/store';
@@ -14,6 +14,11 @@ import { UserEffects } from './effects/user';
 
 import { reducer } from './reducers';
 
+const WINDOW_PROVIDER: ValueProvider = {
+    provide: 'Window',
+    useValue: window
+};
+
 @NgModule({
   declarations: [
     AppComponent
@@ -27,6 +32,7 @@ import { reducer } from './reducers';
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(UserEffects),
   ],
+  providers: [WINDOW_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

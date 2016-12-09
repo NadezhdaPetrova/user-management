@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -31,7 +31,11 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private pageInfoSubscription: Subscription;
 
-  constructor(private store: Store<fromRoot.State>, private dialog: MdDialog) {
+  constructor(
+    private store: Store<fromRoot.State>,
+    private dialog: MdDialog,
+    @Inject('Window') private window: any
+  ) {
     this.users$ = this.store.select(fromRoot.getUserCollection);
     this.isLoading$ = this.store.select(fromRoot.getUserIsLoading);
     this.hasError$ = this.store.select(fromRoot.getUserHasError);
@@ -72,6 +76,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(nextPage) {
+    this.window.scrollTo(0, 0);
+
     const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, { page: nextPage.page });
     this.store.dispatch(new user.LoadAction(nextPageInfo));
   }

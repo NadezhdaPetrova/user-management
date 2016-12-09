@@ -20,7 +20,7 @@ export interface State {
 
 const defaultPageInfo: PageInfo = {
     page: 1,
-    size: 10,
+    size: 20,
     sort: {
         property: 'firstName',
         direction: SortDirection.Ascending
