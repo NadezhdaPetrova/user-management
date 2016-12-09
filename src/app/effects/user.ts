@@ -4,9 +4,9 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-import * as userActions from '../actions/user';
-import { User, UsersInfo, PageInfo } from '../modules/users/models';
-import { UserService } from '../modules/users/services/user.service';
+import * as userActions from 'actions/user';
+import { User, UsersInfo, PageInfo } from 'modules/users/models';
+import { UserService } from 'modules/users/services/user.service';
 
 @Injectable()
 export class UserEffects {

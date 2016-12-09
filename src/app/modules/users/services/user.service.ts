@@ -4,7 +4,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import { SortDirection, User, UsersInfo, PageInfo } from '../models';
+import { SortDirection, User, UsersInfo, PageInfo } from 'modules/users/models';
 
 const sortDirectionValue = new Map()
     .set(SortDirection.Ascending, 'asc')

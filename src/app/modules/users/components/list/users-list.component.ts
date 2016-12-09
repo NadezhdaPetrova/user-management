@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { User, SortDirection } from '../models';
+import { User, SortDirection } from 'modules/users/models';
 
 @Component({
     selector: 'app-users-list',

@@ -4,12 +4,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 
-import { UserComponent } from './user.component';
+import { UserComponent } from 'modules/users/components/form/user.component';
 
-import { User, SortDescriptor, SortDirection, PageInfo } from '../models';
-import { ToastConfig } from '../../shared/components/toast/toast.config';
-import * as fromRoot from '../../../reducers';
-import * as user from '../../../actions/user';
+import { User, SortDescriptor, SortDirection, PageInfo } from 'modules/users/models';
+import { ToastConfig } from 'modules/shared/components/toast/toast.config';
+import * as fromRoot from 'reducers';
+import * as user from 'actions/user';
 
 @Component({
   selector: 'app-users',

@@ -1,5 +1,5 @@
-import { User, PageInfo, SortDirection } from '../modules/users/models';
-import * as user from '../actions/user';
+import { User, PageInfo, SortDirection } from 'modules/users/models';
+import * as user from 'actions/user';
 
 export interface State {
     collection: Array<User>;

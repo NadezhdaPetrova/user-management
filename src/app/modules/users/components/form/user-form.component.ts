@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { User } from '../models';
+import { User } from 'modules/users/models';
 
 @Component({
     selector: 'app-user-form',

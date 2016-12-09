@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { User, UsersInfo, PageInfo } from '../modules/users/models';
-import { ToastConfig } from '../modules/shared/components/toast/toast.config';
-import { type } from '../utils';
+import { User, UsersInfo, PageInfo } from 'modules/users/models';
+import { ToastConfig } from 'modules/shared/components/toast/toast.config';
+import { type } from 'utils';
 
 // TODO: extract actions nad reducers in separate files
 

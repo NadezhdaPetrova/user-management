@@ -6,13 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { SharedModule } from './modules/shared/shared.module';
-import { UsersModule } from './modules/users/users.module';
+import { SharedModule } from 'modules/shared/shared.module';
+import { UsersModule } from 'modules/users/users.module';
 
-import { AppComponent } from './app.component';
-import { UserEffects } from './effects/user';
+import { AppComponent } from 'app.component';
+import { UserEffects } from 'effects/user';
 
-import { reducer } from './reducers';
+import { reducer } from 'reducers';
 
 const WINDOW_PROVIDER: ValueProvider = {
     provide: 'Window',
