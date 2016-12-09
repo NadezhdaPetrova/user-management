@@ -12,6 +12,7 @@ export class UsersListComponent {
     @Input() users: Array<User>;
     @Input() currentSorting;
     @Output() sort: EventEmitter<string> = new EventEmitter<string>();
+    @Output() delete: EventEmitter<number> = new EventEmitter<number>();
 
     SortDirection = SortDirection;
 

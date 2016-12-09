@@ -2,22 +2,23 @@
     <table *ngIf="users.length">
         <thead>
             <tr>
-                <th (click)="sort.emit('firstName')">
+                <th (click)="sort.emit('firstName')" class="col-24">
                     <span>First name</span>
                     <div [ngClass]="{'sorted-asc': isColumnSorted('firstName', SortDirection.Ascending), 'sorted-desc': isColumnSorted('firstName', SortDirection.Descending)}"></div>
                 </th>
-                <th (click)="sort.emit('lastName')">
+                <th (click)="sort.emit('lastName')"  class="col-24">
                     <span>Last name</span>
                     <div [ngClass]="{'sorted-asc': isColumnSorted('lastName', SortDirection.Ascending), 'sorted-desc': isColumnSorted('lastName', SortDirection.Descending)}"></div>
                 </th>
-                <th (click)="sort.emit('email')">
+                <th (click)="sort.emit('email')"  class="col-24">
                     <span>Email</span>
                     <div [ngClass]="{'sorted-asc': isColumnSorted('email', SortDirection.Ascending), 'sorted-desc': isColumnSorted('email', SortDirection.Descending)}"></div>
                 </th>
-                <th (click)="sort.emit('dateOfBirth')">
+                <th (click)="sort.emit('dateOfBirth')"  class="col-24">
                     <span>Date of birth</span>
                     <div [ngClass]="{'sorted-asc': isColumnSorted('dateOfBirth', SortDirection.Ascending), 'sorted-desc': isColumnSorted('dateOfBirth', SortDirection.Descending)}"></div>
                 </th>
+                <th  class="col-4"></th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
                 <td>{{user.lastName | contentFormat}}</td>
                 <td>{{user.email | contentFormat}}</td>
                 <td>{{user.dateOfBirth | contentFormat}}</td>
+                <td><div class="delete-button" (click)="delete.emit(user.id)"></div></td>
             </tr>
         </tbody>
     </table>

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { User, UsersInfo, PageInfo } from '../modules/users/models';
+import { ToastConfig } from '../modules/shared/components/toast/toast.config';
 import { type } from '../utils';
 
 // TODO: extract actions nad reducers in separate files
@@ -12,8 +13,11 @@ export const ActionTypes = {
     CREATE: type('[User] Create'),
     CREATE_SUCCESS: type('[User] Create Seccess'),
     CREATE_FAIL: type('[User] Create Fail'),
-    SHOW_SUCCESS_MESSAGE: type('[User] Show Success Message'),
-    HIDE_SUCCESS_MESSAGE: type('[User] Hide Success Message'),
+    SHOW_TOAST_MESSAGE: type('[User] Show Toast Message'),
+    HIDE_TOAST_MESSAGE: type('[User] Hide Toast Message'),
+    DELETE: type('[User] Delete'),
+    DELETE_SUCCESS: type('[User] Delete Success'),
+    DELETE_FAIL: type('[User] Delete Fail')
 };
 
 export class LoadAction implements Action {
@@ -52,12 +56,30 @@ export class CreateFailAction implements Action {
     constructor(public payload: string) { }
 }
 
-export class ShowSuccessMessageAction implements Action {
-    type = ActionTypes.SHOW_SUCCESS_MESSAGE;
+export class ShowToastMessageAction implements Action {
+    type = ActionTypes.SHOW_TOAST_MESSAGE;
+
+    constructor(public payload: ToastConfig) { }
 }
 
-export class HideSuccessMessageAction implements Action {
-    type = ActionTypes.HIDE_SUCCESS_MESSAGE;
+export class HideToastMessageAction implements Action {
+    type = ActionTypes.HIDE_TOAST_MESSAGE;
+}
+
+export class DeleteAction implements Action {
+    type = ActionTypes.DELETE;
+
+    constructor(public payload: number) { }
+}
+
+export class DeleteSuccessAction implements Action {
+    type = ActionTypes.DELETE_SUCCESS;
+}
+
+export class DeleteFailAction implements Action {
+    type = ActionTypes.DELETE_FAIL;
+
+    constructor(public payload: string) { }
 }
 
 export type Actions = LoadAction
@@ -66,5 +88,8 @@ export type Actions = LoadAction
                     | CreateAction
                     | CreateSuccessAction
                     | CreateFailAction
-                    | ShowSuccessMessageAction
-                    | HideSuccessMessageAction;
+                    | ShowToastMessageAction
+                    | HideToastMessageAction
+                    | DeleteAction
+                    | DeleteSuccessAction
+                    | DeleteFailAction;

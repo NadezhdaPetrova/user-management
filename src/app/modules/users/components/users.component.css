@@ -30,17 +30,3 @@ md-card-actions {
 md-card-content {
     clear: both;
 }
-
-@media only screen and (min-width: 500px) {
-    #successMessage {
-        left: 25% !important;
-        right: 25% !important;
-    }
-}
-
-#successMessage {
-    position: absolute;
-    left: 10%;
-    right: 10%;
-    z-index: 999;
-}

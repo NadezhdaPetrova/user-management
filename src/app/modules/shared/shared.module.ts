@@ -7,16 +7,18 @@ import { MaterialModule } from '@angular/material';
 import { AlertModule, PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { ContentFormatPipe } from './pipes/content-format.pipe';
-import { ErrorComponent } from './components/error.component';
-import { PaginationComponent} from './components/pagination.component';
+import { ErrorComponent } from './components/error/error.component';
+import { PaginationComponent} from './components/pagination/pagination.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
-    declarations: [ContentFormatPipe, ErrorComponent, PaginationComponent],
-    imports: [AlertModule, PaginationModule],
+    declarations: [ContentFormatPipe, ErrorComponent, PaginationComponent, ToastComponent],
+    imports: [CommonModule, AlertModule, PaginationModule],
     exports: [
         ContentFormatPipe,
         ErrorComponent,
         PaginationComponent,
+        ToastComponent,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,

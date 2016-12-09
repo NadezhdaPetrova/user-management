@@ -1,5 +1,5 @@
-<div *ngIf="showSuccessMessage$ | async" id="successMessage" class="elementToFadeInAndOut">
-    <alert type="success"  dismissible="true">User has been successfully saved!</alert>
+<div *ngIf="showToastMessage$ | async">
+    <app-toast [type]="toastType$ | async" [message]="toastMessage$ | async"></app-toast>
 </div>
 
 <md-card>
@@ -12,7 +12,9 @@
         </md-progress-circle>
 
         <div *ngIf="!(hasError$ | async)">
-            <app-users-list [users]="users$ | async" (sort)="sort($event)" [currentSorting]="pageInfo.sort"></app-users-list>
+            <app-users-list [users]="users$ | async" [currentSorting]="pageInfo.sort"
+                (sort)="sort($event)" (delete)="delete($event)">
+            </app-users-list>
 
             <div *ngIf="!((users$ | async).length) && !(isLoading$ | async)">
                 No users have been created yet.

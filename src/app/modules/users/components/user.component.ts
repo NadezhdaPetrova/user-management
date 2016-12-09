@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 
 import { User, PageInfo } from '../models';
+import { ToastConfig } from '../../shared/components/toast/toast.config';
 import * as userActions from '../../../actions/user';
 import * as fromRoot from '../../../reducers';
 
@@ -40,8 +41,8 @@ export class UserComponent implements OnDestroy {
         this.userSavedSubscription = userSaved$.subscribe(isSaved => {
             if (isSaved) {
                 this.store.dispatch(new userActions.LoadAction(this.pageInfo));
-                this.store.dispatch(new userActions.ShowSuccessMessageAction());
-                setTimeout(() => this.store.dispatch(new userActions.HideSuccessMessageAction()), 5000);
+                const toastConfig = new ToastConfig('User has been successfully saved!', 'success');
+                this.store.dispatch(new userActions.ShowToastMessageAction(toastConfig));
 
                 this.dialogRef.close();
             }

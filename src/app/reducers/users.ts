@@ -12,10 +12,15 @@ export interface State {
     dialogUserSaved: boolean;
     dialogHasError: boolean;
     dialogError: string;
-    showSuccessMessage: boolean;
+    showToastMessage: boolean;
+    toastMessage: string;
+    toastType: 'success' | 'danger';
     totalUsers: number;
     usersPerPage: number;
     currentPage: number;
+    deletionSuccessful: boolean;
+    deletionHasError: boolean;
+    deletionError: string;
 }
 
 const defaultPageInfo: PageInfo = {
@@ -38,10 +43,15 @@ const initialState: State = {
     dialogUserSaved: false,
     dialogHasError: false,
     dialogError: null,
-    showSuccessMessage: false,
+    showToastMessage: false,
+    toastMessage: null,
+    toastType: null,
     totalUsers: null,
     usersPerPage: defaultPageInfo.size,
-    currentPage: defaultPageInfo.page
+    currentPage: defaultPageInfo.page,
+    deletionSuccessful: false,
+    deletionHasError: false,
+    deletionError: null
 };
 
 export function reducer(state: State = initialState, action: user.Actions): State {
@@ -50,6 +60,7 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
             return Object.assign({}, state, {
                 isLoading: true,
                 dialogUserSaved: false,
+                deletionSuccessful: false,
                 pageInfo: action.payload,
                 user: new User()
             });
@@ -89,14 +100,29 @@ export function reducer(state: State = initialState, action: user.Actions): Stat
                 dialogError: action.payload
             });
         }
-        case user.ActionTypes.SHOW_SUCCESS_MESSAGE: {
+        case user.ActionTypes.SHOW_TOAST_MESSAGE: {
             return Object.assign({}, state, {
-                showSuccessMessage: true
+                showToastMessage: true,
+                toastMessage: action.payload.message,
+                toastType: action.payload.type
             });
         }
-        case user.ActionTypes.HIDE_SUCCESS_MESSAGE: {
+        case user.ActionTypes.HIDE_TOAST_MESSAGE: {
             return Object.assign({}, state, {
-                showSuccessMessage: false
+                showToastMessage: false,
+                deletionHasError: false,
+                deletionError: null
+            });
+        }
+        case user.ActionTypes.DELETE_SUCCESS: {
+            return Object.assign({}, state, {
+                deletionSuccessful: true
+            });
+        }
+        case user.ActionTypes.DELETE_FAIL: {
+            return Object.assign({}, state, {
+                deletionHasError: true,
+                deletionError: action.payload
             });
         }
         default: {
@@ -115,7 +141,12 @@ export const getDialogLoading = (state: State) => state.dialogLoading;
 export const getDialogUserSaved = (state: State) => state.dialogUserSaved;
 export const getDialogHasError = (state: State) => state.dialogHasError;
 export const getDialogError = (state: State) => state.dialogError;
-export const getShowSuccessMessage = (state: State) => state.showSuccessMessage;
+export const getShowToastMessage = (state: State) => state.showToastMessage;
+export const getToastMessage = (state: State) => state.toastMessage;
+export const getToastType = (state: State) => state.toastType;
 export const getTotalUsers = (state: State) => state.totalUsers;
 export const getUsersPerPage = (state: State) => state.usersPerPage;
 export const getCurrentPage = (state: State) => state.currentPage;
+export const getDeletionSuccessful = (state: State) => state.deletionSuccessful;
+export const getDeletionHasError = (state: State) => state.deletionHasError;
+export const getDeletionError = (state: State) => state.deletionError;

@@ -17,7 +17,7 @@ export class UserEffects {
     .switchMap((pageInfo: PageInfo) => {
         return this.userService.getUsers(pageInfo)
             .map((usersInfo: UsersInfo) => new userActions.LoadSuccessAction(usersInfo))
-            .catch(error => of(new userActions.LoadFailAction(error)));
+            .catch((error: string) => of(new userActions.LoadFailAction(error)));
     });
 
     @Effect()
@@ -27,7 +27,25 @@ export class UserEffects {
     .switchMap((user: User) => {
         return this.userService.createUser(user)
             .map((createdUser: User) => new userActions.CreateSuccessAction(createdUser))
-            .catch(error => of(new userActions.CreateFailAction(error)));
+            .catch((error: string) => of(new userActions.CreateFailAction(error)));
+    });
+
+    @Effect()
+    deleteUser$: Observable<Action> = this.actions$
+    .ofType(userActions.ActionTypes.DELETE)
+    .map((action: userActions.DeleteAction) => action.payload)
+    .switchMap((id: number) => {
+        return this.userService.deleteUser(id)
+            .map(() => new userActions.DeleteSuccessAction())
+            .catch((error: string) => of(new userActions.DeleteFailAction(error)));
+    });
+
+    @Effect()
+    showToastMessage$: Observable<Action> = this.actions$
+    .ofType(userActions.ActionTypes.SHOW_TOAST_MESSAGE)
+    .switchMap(() => {
+        return of(new userActions.HideToastMessageAction())
+            .delay(5000);
     });
 
     constructor(private actions$: Actions, private userService: UserService) { }

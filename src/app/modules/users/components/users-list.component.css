@@ -42,3 +42,17 @@ tbody tr td {
     background: url('assets/desc.png');
     display: inline-block;
 }
+
+.delete-button {
+    width: 18px;
+    height: 20px;
+    background: url('assets/delete.png');
+}
+
+.col-24 {
+    width: 24%;
+}
+
+.col-4 {
+    width: 4%;
+}

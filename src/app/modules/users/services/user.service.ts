@@ -44,6 +44,17 @@ export class UserService {
                         });
     }
 
+    deleteUser(id: number) {
+        const url = this.serverUrl + '/' + id;
+
+        return this.http.delete(url)
+            .map((result: Response) => true)
+            .catch(result => {
+                const body = result.json();
+                return Observable.throw(body.message);
+            });
+    }
+
     private getServiceUrl(pageInfo: PageInfo): string {
         let url = this.serverUrl;
 
