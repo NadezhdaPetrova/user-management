@@ -32,13 +32,13 @@ tbody tr td {
 .sorted-asc {
     width: 16px;
     height: 9px;
-    background: url('../../../../assets/asc.png');
+    background: url('assets/asc.png');
     display: inline-block;
 }
 
 .sorted-desc {
     width: 16px;
     height: 9px;
-    background: url('../../../../assets/desc.png');
+    background: url('assets/desc.png');
     display: inline-block;
 }
