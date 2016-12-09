@@ -8,8 +8,8 @@ export class User {
         public firstName = '',
         public lastName = '',
         public email = '',
-        public id?: number,
-        public dateOfBirth?: Date
+        public dateOfBirth: Date = new Date(),
+        public id?: number
     ) { }
 }
 

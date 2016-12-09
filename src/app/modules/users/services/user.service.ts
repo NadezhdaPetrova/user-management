@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -12,6 +13,7 @@ const sortDirectionValue = new Map()
 @Injectable()
 export class UserService {
     private serverUrl: string = 'https://w-user-management.herokuapp.com/users';
+    private datePipe: DatePipe = new DatePipe('en-US');
 
     constructor(private http: Http) { }
 
@@ -36,7 +38,10 @@ export class UserService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        return this.http.post(this.serverUrl, JSON.stringify(user), { headers: headers })
+        const formattedDateOfBirth = this.datePipe.transform(user.dateOfBirth, 'y-MM-dd');
+        const userToBeCreated = Object.assign({}, user, { dateOfBirth: formattedDateOfBirth });
+
+        return this.http.post(this.serverUrl, JSON.stringify(userToBeCreated), { headers: headers })
                         .map((result: Response) => result.json())
                         .catch(result => {
                             const body = result.json();

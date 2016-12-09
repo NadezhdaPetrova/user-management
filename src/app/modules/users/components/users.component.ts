@@ -106,7 +106,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   create() {
     this.dialog.open(UserComponent, {
-      disableClose: true
+      disableClose: true,
+      width: '80%',
+      height: '90%'
     });
   }
 
