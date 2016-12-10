@@ -1,9 +1,9 @@
 import * as toastActions from 'actions/toast';
 
 export interface State {
-    showMessage?: boolean;
-    message?: string;
-    type?: 'success' | 'danger';
+    showMessage: boolean;
+    message: string;
+    type: 'success' | 'danger';
 }
 
 const initialState: State = {

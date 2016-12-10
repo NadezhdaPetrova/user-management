@@ -3,10 +3,10 @@ import * as toastActions from 'actions/toast';
 import * as usersActions from 'actions/users';
 
 export interface State {
-    isInProgress?: boolean;
-    isSuccessful?: boolean;
-    hasError?: boolean;
-    error?: string;
+    isInProgress: boolean;
+    isSuccessful: boolean;
+    hasError: boolean;
+    error: string;
 };
 
 const initialState: State = {
@@ -22,14 +22,14 @@ export function reducer(
     ): State {
     switch (action.type) {
         case deletionActions.ActionTypes.DELETE: {
-            const newState: State = {
+            const newState = {
                isInProgress: true
             };
 
             return Object.assign({}, state, newState);
         }
         case deletionActions.ActionTypes.DELETE_SUCCESS: {
-            const newState: State = {
+            const newState = {
                 isInProgress: false,
                 isSuccessful: true
             };
@@ -37,7 +37,7 @@ export function reducer(
             return Object.assign({}, state, newState);
         }
         case deletionActions.ActionTypes.DELETE_FAIL: {
-            const newState: State = {
+            const newState = {
                 isInProgress: false,
                 hasError: true,
                 error: action.payload
@@ -46,7 +46,7 @@ export function reducer(
             return Object.assign({}, state, newState);
         }
         case toastActions.ActionTypes.HIDE_TOAST_MESSAGE: {
-            const newState: State = {
+            const newState = {
                 hasError: false,
                 error: null
             };
@@ -54,7 +54,7 @@ export function reducer(
             return Object.assign({}, state, newState);
         }
         case usersActions.ActionTypes.LOAD: {
-            const newState: State = {
+            const newState = {
                 isSuccessful: false
             };
 

@@ -2,9 +2,9 @@ import { defaultPageNumber, defaultItemsPerPage} from './constants';
 import * as usersActions from 'actions/users';
 
 export interface State {
-    totalUsers?: number;
-    usersPerPage?: number;
-    currentPage?: number;
+    totalUsers: number;
+    usersPerPage: number;
+    currentPage: number;
 }
 
 const initialState: State = {

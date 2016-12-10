@@ -3,11 +3,11 @@ import * as dialogActions from 'actions/dialog';
 import * as usersActions from 'actions/users';
 
 export interface State {
-    user?: User;
-    isLoading?: boolean;
-    isUserSaved?: boolean;
-    hasError?: boolean;
-    error?: string;
+    user: User;
+    isLoading: boolean;
+    isUserSaved: boolean;
+    hasError: boolean;
+    error: string;
 }
 
 const initialState: State = {
@@ -21,14 +21,14 @@ const initialState: State = {
 export function reducer(state: State = initialState, action: dialogActions.Actions | usersActions.Actions): State {
     switch (action.type) {
         case dialogActions.ActionTypes.CREATE: {
-            const newState: State = {
+            const newState = {
                 isLoading: true
             };
 
             return Object.assign({}, state, newState);
         }
         case dialogActions.ActionTypes.CREATE_SUCCESS: {
-            const newState: State = {
+            const newState = {
                 isLoading: false,
                 isUserSaved: true
                 // user: action.payload
@@ -37,7 +37,7 @@ export function reducer(state: State = initialState, action: dialogActions.Actio
             return Object.assign({}, state, newState);
         }
         case dialogActions.ActionTypes.CREATE_FAIL: {
-            const newState: State = {
+            const newState = {
                 isLoading: false,
                 hasError: true,
                 error: action.payload
@@ -46,7 +46,7 @@ export function reducer(state: State = initialState, action: dialogActions.Actio
             return Object.assign({}, state, newState);
         }
         case usersActions.ActionTypes.LOAD: {
-            const newState: State = {
+            const newState = {
                 isUserSaved: false
             };
 

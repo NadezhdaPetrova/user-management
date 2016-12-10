@@ -3,11 +3,11 @@ import { defaultPageNumber, defaultItemsPerPage} from './constants';
 import * as usersActions from 'actions/users';
 
 export interface State {
-    collection?: Array<User>;
-    pageInfo?: PageInfo;
-    isLoading?: boolean;
-    hasError?: boolean;
-    error?: string;
+    collection: Array<User>;
+    pageInfo: PageInfo;
+    isLoading: boolean;
+    hasError: boolean;
+    error: string;
 }
 
 const defaultPageInfo: PageInfo = {
@@ -30,7 +30,7 @@ const initialState: State = {
 export function reducer(state: State = initialState, action: usersActions.Actions): State {
     switch (action.type) {
         case usersActions.ActionTypes.LOAD: {
-            const newState: State = {
+            const newState = {
                 isLoading: true,
                 pageInfo: action.payload
             };
@@ -38,7 +38,7 @@ export function reducer(state: State = initialState, action: usersActions.Action
             return Object.assign({}, state, newState);
         }
         case usersActions.ActionTypes.LOAD_SUCCESS: {
-            const newState: State = {
+            const newState = {
                 collection: action.payload.collection,
                 isLoading: false
             };
@@ -46,7 +46,7 @@ export function reducer(state: State = initialState, action: usersActions.Action
             return Object.assign({}, state, newState);
         }
         case usersActions.ActionTypes.LOAD_FAIL: {
-            const newState: State = {
+            const newState = {
                 isLoading: false,
                 hasError: true,
                 error: action.payload
