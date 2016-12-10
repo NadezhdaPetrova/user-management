@@ -1,5 +1,3 @@
-// TODO: should I delete this comment?
-
 /**
  * This function coerces a string into a string literal type.
  * Using tagged union types in TypeScript 2.0, this enables

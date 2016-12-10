@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -7,7 +7,9 @@ import { Subscription } from 'rxjs';
 import { User, PageInfo } from 'modules/users/models';
 import { ToastConfig } from 'modules/shared/components/toast/toast.config';
 
-import * as userActions from 'actions/user';
+import * as dialogActions from 'actions/dialog';
+import * as usersActions from 'actions/users';
+import * as toastActions from 'actions/toast';
 import * as fromRoot from 'reducers';
 
 @Component({
@@ -16,54 +18,59 @@ import * as fromRoot from 'reducers';
     styleUrls: ['./user.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnDestroy {
+export class UserComponent implements OnInit, OnDestroy {
     user$: Observable<User>;
-    userExists$: Observable<boolean>;
-    loading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
     hasError$: Observable<boolean>;
     error$: Observable<string>;
 
-    private pageInfo: PageInfo;
+    private subscriptions: Array<Subscription> = new Array<Subscription>();
 
-    private userSavedSubscription: Subscription;
-    private pageInfoSubscription: Subscription;
+    constructor(private store: Store<fromRoot.State>, public dialogRef: MdDialogRef<UserComponent>) { }
 
-    constructor(private store: Store<fromRoot.State>, public dialogRef: MdDialogRef<UserComponent>) {
-        this.user$ = this.store.select(fromRoot.getUser);
-        this.userExists$ = this.user$.map(user => user.id ? true : false);
-        this.loading$ = this.store.select(fromRoot.getUserDialogLoading);
-        this.hasError$ = this.store.select(fromRoot.getUserDialogHasError);
-        this.error$ = this.store.select(fromRoot.getUserDialogError);
+    ngOnInit() {
+        this.user$ = this.store.select(fromRoot.getDialogUser);
+        this.isLoading$ = this.store.select(fromRoot.getDialogIsLoading);
+        this.hasError$ = this.store.select(fromRoot.getDialogHasError);
+        this.error$ = this.store.select(fromRoot.getDialogError);
 
-        const pageInfo$ = this.store.select(fromRoot.getUsersPageInfo);
-        this.pageInfoSubscription = pageInfo$.subscribe((pageInfo: PageInfo) => this.pageInfo = pageInfo);
-
-        const userSaved$ = this.store.select(fromRoot.getUserDialogUserSaved);
-        this.userSavedSubscription = userSaved$.subscribe(isSaved => {
-            if (isSaved) {
-                this.store.dispatch(new userActions.LoadAction(this.pageInfo));
-                const toastConfig = new ToastConfig('User has been successfully saved!', 'success');
-                this.store.dispatch(new userActions.ShowToastMessageAction(toastConfig));
-
-                this.dialogRef.close();
-            }
-        });
+        this.subscribeForUserSavedData();
     }
 
     ngOnDestroy() {
-        if (this.userSavedSubscription) {
-            this.userSavedSubscription.unsubscribe();
-        }
-        if (this.pageInfoSubscription) {
-            this.pageInfoSubscription.unsubscribe();
-        }
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     save(user: User) {
-        this.store.dispatch(new userActions.CreateAction(user));
+        this.store.dispatch(new dialogActions.CreateAction(user));
     }
 
     cancel() {
         this.dialogRef.close();
+    }
+
+    private subscribeForUserSavedData() {
+        const pageInfo$ = this.store.select(fromRoot.getUsersPageInfo);
+        const isUserSaved$ = this.store.select(fromRoot.getDialogIsUserSaved);
+
+        const savedUserInfo$ = Observable.combineLatest(pageInfo$, isUserSaved$,
+            (pageInfo: PageInfo, isUserSaved: boolean) => {
+                return {
+                    pageInfo: pageInfo,
+                    isUserSaved: isUserSaved
+                };
+            });
+
+        const subscription = savedUserInfo$.subscribe(data => {
+            if (data.isUserSaved) {
+                this.store.dispatch(new usersActions.LoadAction(data.pageInfo));
+                const toastConfig = new ToastConfig('User has been successfully saved!', 'success');
+                this.store.dispatch(new toastActions.ShowToastMessageAction(toastConfig));
+
+                this.dialogRef.close();
+            }
+        });
+
+        this.subscriptions.push(subscription);
     }
 }

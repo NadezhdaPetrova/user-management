@@ -18,8 +18,6 @@ export class UserService {
     constructor(private http: Http) { }
 
     getUsers(pageInfo?: PageInfo): Observable<UsersInfo> {
-        // TODO: should I add a client validation???
-
         const url = this.getServiceUrl(pageInfo);
 
         return this.http.get(url)

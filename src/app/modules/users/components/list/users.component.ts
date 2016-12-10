@@ -5,11 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 
 import { UserComponent } from 'modules/users/components/form/user.component';
-
 import { User, SortDescriptor, SortDirection, PageInfo } from 'modules/users/models';
 import { ToastConfig } from 'modules/shared/components/toast/toast.config';
+
+import * as usersActions from 'actions/users';
+import * as toastActions from 'actions/toast';
+import * as deletionActions from 'actions/deletion';
 import * as fromRoot from 'reducers';
-import * as user from 'actions/user';
 
 @Component({
   selector: 'app-users',
@@ -22,129 +24,124 @@ export class UsersComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   hasError$: Observable<boolean>;
   error$: Observable<string>;
-  showToastMessage$: Observable<boolean>;
-  toastMessage$: Observable<string>;
-  toastType$: Observable<'success' | 'danger'>;
-  totalUsers$: Observable<number>;
-  usersPerPage$: Observable<number>;
-  currentPage$: Observable<number>;
-  showNavigation$: Observable<boolean>;
+
   disableGrid$: Observable<boolean>;
 
   private pageInfo: PageInfo;
 
-  private pageInfoSubscription: Subscription;
-  private deletionSuccessfulSubscription: Subscription;
-  private showDeletionErrorSubscription: Subscription;
+  private subscriptions: Array<Subscription> = new Array<Subscription>();
 
   constructor(
     private store: Store<fromRoot.State>,
     private dialog: MdDialog,
     @Inject('Window') private window: any
-  ) {
-    // TODO: Refactor this!!!
-    this.users$ = this.store.select(fromRoot.getUserCollection);
-    this.isLoading$ = this.store.select(fromRoot.getUserIsLoading);
-    this.hasError$ = this.store.select(fromRoot.getUserHasError);
-    this.error$ = this.store.select(fromRoot.getUserError);
-    this.showToastMessage$ = this.store.select(fromRoot.getUserShowToastMessage);
-    this.toastMessage$ = this.store.select(fromRoot.getUserToastMessage);
-    this.toastType$ = this.store.select(fromRoot.getUserToastType);
-
-    this.totalUsers$ = this.store.select(fromRoot.getTotalUsers);
-    this.usersPerPage$ = this.store.select(fromRoot.getUsersPerPage);
-    this.currentPage$ = this.store.select(fromRoot.getUsersCurrentPage);
-
-    this.showNavigation$ = Observable.combineLatest(this.totalUsers$, this.usersPerPage$,
-      (totalUsers: number, usersPerPage: number) => totalUsers > usersPerPage);
-
-    const pageInfo$ = this.store.select(fromRoot.getUsersPageInfo);
-    this.pageInfoSubscription = pageInfo$.subscribe(pageInfo => this.pageInfo = pageInfo);
-
-    const deletionSuccessful$ = this.store.select(fromRoot.getUsersDeletionSuccessful);
-    this.deletionSuccessfulSubscription = deletionSuccessful$.subscribe((isDeleted: boolean) => {
-      if (isDeleted) {
-        this.store.dispatch(new user.LoadAction(this.pageInfo));
-        const toastConfig = new ToastConfig('User has been successfully deleted!', 'success');
-        this.store.dispatch(new user.ShowToastMessageAction(toastConfig));
-      }
-    });
-
-    const deletionInProgress$ = this.store.select(fromRoot.getUsersDeletionInProgress);
-    this.disableGrid$ = Observable.combineLatest(deletionInProgress$, this.isLoading$,
-      (deletionInProgress: boolean, isLoading: boolean) => deletionInProgress || isLoading);
-    const deletionError$ = this.store.select(fromRoot.getUsersDeletionError);
-    const deletionHasError$ = this.store.select(fromRoot.getUsersDeletionHasError);
-    const showDeletionError$ = Observable.combineLatest(deletionHasError$, deletionError$,
-      (deletionHasError: boolean, deletionError: string) => {
-        return { hasError: deletionHasError, error: deletionError};
-      });
-    this.showDeletionErrorSubscription = showDeletionError$.subscribe((data: {hasError: boolean, error: string}) => {
-      if (data.hasError) {
-        const errorMessage = `Something went wrong while deleting the user! Error: ${data.error}`;
-        const toastConfig = new ToastConfig(errorMessage, 'danger');
-        this.store.dispatch(new user.ShowToastMessageAction(toastConfig));
-      }
-    });
-  }
+  ) {  }
 
   ngOnInit() {
-    this.store.dispatch(new user.LoadAction(this.pageInfo));
+    this.subscribeForUsersData();
+    this.subscribeForDeletionData();
+
+    const isDeletionInProgress$ = this.store.select(fromRoot.getDeletionIsInProgress);
+    this.disableGrid$ = Observable.combineLatest(isDeletionInProgress$, this.isLoading$,
+      (isDeletionInProgress: boolean, isLoading: boolean) => isDeletionInProgress || isLoading);
+
+    this.store.dispatch(new usersActions.LoadAction(this.pageInfo));
   }
 
   ngOnDestroy() {
-    if (this.pageInfoSubscription) {
-      this.pageInfoSubscription.unsubscribe();
-    }
-    if (this.deletionSuccessfulSubscription) {
-      this.deletionSuccessfulSubscription.unsubscribe();
-    }
-    if (this.showDeletionErrorSubscription) {
-      this.showDeletionErrorSubscription.unsubscribe();
-    }
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   create() {
-    this.dialog.open(UserComponent, {
+    const dialogConfig = {
       disableClose: true,
       width: '80%',
       height: '90%'
-    });
+    };
+
+    this.dialog.open(UserComponent, dialogConfig);
   }
 
   sort(property) {
     const newSortDescriptor = this.generateSortDescriptor(property);
     const newPageInfo = Object.assign({}, this.pageInfo, { sort: newSortDescriptor });
-    this.store.dispatch(new user.LoadAction(newPageInfo));
+    this.store.dispatch(new usersActions.LoadAction(newPageInfo));
   }
 
   delete(id: number) {
-    this.store.dispatch(new user.DeleteAction(id));
+    this.store.dispatch(new deletionActions.DeleteAction(id));
   }
 
   pageChanged(nextPage) {
     this.window.scrollTo(0, 0);
 
     const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, { page: nextPage.page });
-    this.store.dispatch(new user.LoadAction(nextPageInfo));
+    this.store.dispatch(new usersActions.LoadAction(nextPageInfo));
   }
 
   private generateSortDescriptor(property): SortDescriptor {
     let newSortDirection: SortDirection;
 
     if (property === this.pageInfo.sort.property) {
-      newSortDirection =
-          this.pageInfo.sort.direction === SortDirection.Ascending ?
-                  SortDirection.Descending : SortDirection.Ascending;
+      newSortDirection = this.pageInfo.sort.direction === SortDirection.Ascending ?
+                            SortDirection.Descending : SortDirection.Ascending;
     } else {
         newSortDirection = SortDirection.Ascending;
     }
 
-    let newSortDescriptor: SortDescriptor = {
+    const newSortDescriptor: SortDescriptor = {
       property: property,
       direction: newSortDirection
     };
 
     return newSortDescriptor;
+  }
+
+  private subscribeForUsersData() {
+    this.users$ = this.store.select(fromRoot.getUsersCollection);
+    this.isLoading$ = this.store.select(fromRoot.getUsersIsLoading);
+    this.hasError$ = this.store.select(fromRoot.getUsersHasError);
+    this.error$ = this.store.select(fromRoot.getUsersError);
+
+    const pageInfo$ = this.store.select(fromRoot.getUsersPageInfo);
+    const subscription = pageInfo$.subscribe(pageInfo => this.pageInfo = pageInfo);
+    this.subscriptions.push(subscription);
+  }
+
+  private subscribeForDeletionData() {
+    this.subscribeForSuccessfulDeletion();
+    this.subscribeForFailedDeletion();
+  }
+
+  private subscribeForSuccessfulDeletion() {
+    const isDeletionSuccessful$ = this.store.select(fromRoot.getDeletionIsSuccessful);
+    const subscription = isDeletionSuccessful$.subscribe((isDeleted: boolean) => {
+      if (isDeleted) {
+        this.store.dispatch(new usersActions.LoadAction(this.pageInfo));
+        const toastConfig = new ToastConfig('User has been successfully deleted!', 'success');
+        this.store.dispatch(new toastActions.ShowToastMessageAction(toastConfig));
+      }
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
+  private subscribeForFailedDeletion() {
+    const deletionError$ = this.store.select(fromRoot.getDeletionError);
+    const deletionHasError$ = this.store.select(fromRoot.getDeletionHasError);
+
+    const showDeletionError$ = Observable.combineLatest(deletionHasError$, deletionError$,
+      (deletionHasError: boolean, deletionError: string) => {
+        return { hasError: deletionHasError, error: deletionError};
+      });
+    const subscription = showDeletionError$.subscribe(data => {
+      if (data.hasError && data.error) {
+        const errorMessage = `Something went wrong while deleting the user! Error: ${data.error}`;
+        const toastConfig = new ToastConfig(errorMessage, 'danger');
+        this.store.dispatch(new toastActions.ShowToastMessageAction(toastConfig));
+      }
+    });
+
+    this.subscriptions.push(subscription);
   }
 }

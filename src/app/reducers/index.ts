@@ -6,14 +6,26 @@ import { combineReducers } from '@ngrx/store';
 
 import { environment } from '../../environments/environment';
 
-import * as fromUsers from './users';
+import * as users from './users';
+import * as dialog from './dialog';
+import * as deletion from './deletion';
+import * as pagination from './pagination';
+import * as toast from './toast';
 
 export interface State {
-  users: fromUsers.State;
+  users: users.State;
+  dialog: dialog.State;
+  deletion: deletion.State;
+  pagination: pagination.State;
+  toast: toast.State;
 }
 
 const reducers = {
-  users: fromUsers.reducer
+  users: users.reducer,
+  dialog: dialog.reducer,
+  deletion: deletion.reducer,
+  pagination: pagination.reducer,
+  toast: toast.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -27,25 +39,42 @@ export function reducer(state: any, action: any) {
   }
 }
 
+// Users
 export const getUsersState = (state: State) => state.users;
 
-export const getUserCollection = createSelector(getUsersState, fromUsers.getCollection);
-export const getUsersPageInfo = createSelector(getUsersState, fromUsers.getPageInfo);
-export const getUserIsLoading = createSelector(getUsersState, fromUsers.getIsLoading);
-export const getUserHasError = createSelector(getUsersState, fromUsers.getHasError);
-export const getUserError = createSelector(getUsersState, fromUsers.getError);
-export const getUser = createSelector(getUsersState, fromUsers.getUser);
-export const getUserDialogLoading = createSelector(getUsersState, fromUsers.getDialogLoading);
-export const getUserDialogUserSaved = createSelector(getUsersState, fromUsers.getDialogUserSaved);
-export const getUserDialogHasError = createSelector(getUsersState, fromUsers.getDialogHasError);
-export const getUserDialogError = createSelector(getUsersState, fromUsers.getDialogError);
-export const getUserShowToastMessage = createSelector(getUsersState, fromUsers.getShowToastMessage);
-export const getUserToastMessage = createSelector(getUsersState, fromUsers.getToastMessage);
-export const getUserToastType = createSelector(getUsersState, fromUsers.getToastType);
-export const getTotalUsers = createSelector(getUsersState, fromUsers.getTotalUsers);
-export const getUsersPerPage = createSelector(getUsersState, fromUsers.getUsersPerPage);
-export const getUsersCurrentPage = createSelector(getUsersState, fromUsers.getCurrentPage);
-export const getUsersDeletionInProgress = createSelector(getUsersState, fromUsers.getDeletionInProgress);
-export const getUsersDeletionSuccessful = createSelector(getUsersState, fromUsers.getDeletionSuccessful);
-export const getUsersDeletionHasError = createSelector(getUsersState, fromUsers.getDeletionHasError);
-export const getUsersDeletionError = createSelector(getUsersState, fromUsers.getDeletionError);
+export const getUsersCollection = createSelector(getUsersState, users.getCollection);
+export const getUsersPageInfo = createSelector(getUsersState, users.getPageInfo);
+export const getUsersIsLoading = createSelector(getUsersState, users.getIsLoading);
+export const getUsersHasError = createSelector(getUsersState, users.getHasError);
+export const getUsersError = createSelector(getUsersState, users.getError);
+
+// Dialog
+export const getDialogState = (state: State) => state.dialog;
+
+export const getDialogUser = createSelector(getDialogState, dialog.getUser);
+export const getDialogIsLoading = createSelector(getDialogState, dialog.getIsLoading);
+export const getDialogIsUserSaved = createSelector(getDialogState, dialog.getIsUserSaved);
+export const getDialogHasError = createSelector(getDialogState, dialog.getHasError);
+export const getDialogError = createSelector(getDialogState, dialog.getError);
+
+// Deletion
+export const getDeletionState = (state: State) => state.deletion;
+
+export const getDeletionIsInProgress = createSelector(getDeletionState, deletion.getIsInProgress);
+export const getDeletionIsSuccessful = createSelector(getDeletionState, deletion.getIsSuccessful);
+export const getDeletionHasError = createSelector(getDeletionState, deletion.getHasError);
+export const getDeletionError = createSelector(getDeletionState, deletion.getError);
+
+// Pagination
+export const getPaginationState = (state: State) => state.pagination;
+
+export const getPaginationTotalUsers = createSelector(getPaginationState, pagination.getTotalUsers);
+export const getPaginationUsersPerPage = createSelector(getPaginationState, pagination.getUsersPerPage);
+export const getPaginationCurrentPage = createSelector(getPaginationState, pagination.getCurrentPage);
+
+// Toast
+export const getToastState = (state: State) => state.toast;
+
+export const getToastShowMessage = createSelector(getToastState, toast.getShowMessage);
+export const getToastMessage = createSelector(getToastState, toast.getMessage);
+export const getToastType = createSelector(getToastState, toast.getType);

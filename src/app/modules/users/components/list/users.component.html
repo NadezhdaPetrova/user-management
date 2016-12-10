@@ -1,6 +1,4 @@
-<div *ngIf="showToastMessage$ | async">
-    <app-toast [type]="toastType$ | async" [message]="toastMessage$ | async"></app-toast>
-</div>
+<app-users-toast></app-users-toast>
 
 <md-card>
     <md-card-title><h1>Users</h1></md-card-title>
@@ -21,10 +19,7 @@
                 No users have been created yet.
             </div>
 
-            <app-pagination *ngIf="showNavigation$ | async"
-                [totalItems]="totalUsers$ | async" [currentPage]="currentPage$ | async" 
-                [itemsPerPage]="usersPerPage$ | async" (pageChanged)="pageChanged($event)">
-            </app-pagination>
+            <app-users-pagination (pageChanged)="pageChanged($event)"></app-users-pagination>
         </div>
 
         <div *ngIf="hasError$ | async">
