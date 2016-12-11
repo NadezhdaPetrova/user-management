@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     private store: Store<fromRoot.State>,
     private dialog: MdDialog,
     @Inject('Window') private window: any
-  ) {  }
+  ) { }
 
   ngOnInit() {
     this.subscribeForUsersData();

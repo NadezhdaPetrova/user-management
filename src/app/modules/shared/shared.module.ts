@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { AlertModule, PaginationModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -20,10 +19,8 @@ import { ToastComponent } from './components/toast/toast.component';
         PaginationComponent,
         ToastComponent,
         FormsModule,
-        ReactiveFormsModule,
         HttpModule,
         CommonModule,
-        RouterModule,
         MaterialModule,
         AlertModule,
         PaginationModule,
