@@ -3,6 +3,8 @@ Simple single page application for managing users.
 
 ### Quick start
 
+Make sure you have [node and npm installed](https://angular.io/docs/ts/latest/guide/setup.html#!#install-prerequisites). Then...
+
 ```bash
 # Clone the repo
 git clone https://github.com/NadezhdaPetrova/user-management.git
