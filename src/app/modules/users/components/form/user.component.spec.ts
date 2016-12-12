@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
-import { MdDialogModule, MdDialog } from '@angular/material';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,56 +9,37 @@ import { reducer } from 'reducers';
 import * as dialogActions from 'actions/dialog';
 
 describe('UserComponent', () => {
-    let userComponentInstance;
-
-    // We must create this component in order to open a dialog
-    // so that UserComponent's dialogRef can be initialized
-    @Component({
-        selector: 'app-test-component',
-        template: '',
-    })
-    class TestComponent {
-        constructor(private dialog: MdDialog) {
-            const dialogRef = this.dialog.open(UserComponent);
-            userComponentInstance = dialogRef.componentInstance;
-        }
-    }
+    let fixture;
+    let component;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [UserComponent, TestComponent],
+            declarations: [UserComponent],
             imports: [
                 StoreModule.provideStore(reducer),
-                MdDialogModule.forRoot()
             ],
             schemas: [NO_ERRORS_SCHEMA]
-        });
-
-        // The component that will be created in the dialog must be added
-        // in the module's entryComponents. But configureTestingModule doesn't have
-        // entryComponents so we have to override the module
-        // More info: https://github.com/angular/angular/issues/10760
-        TestBed.overrideModule(BrowserDynamicTestingModule, {
-            set: {
-                entryComponents: [UserComponent],
-            },
         });
     });
 
     beforeEach(() => {
-        TestBed.createComponent(TestComponent);
+        fixture = TestBed.createComponent(UserComponent);
+        component = fixture.debugElement.componentInstance;
     });
 
     afterEach(() => {
-        userComponentInstance = null;
+        fixture = null;
+        component = null;
     });
 
     it('should be initialized with the initial state of the store', () => {
+        fixture.detectChanges();
+
         const state = Observable.combineLatest(
-            userComponentInstance.user$,
-            userComponentInstance.isLoading$,
-            userComponentInstance.hasError$,
-            userComponentInstance.error$,
+            component.user$,
+            component.isLoading$,
+            component.hasError$,
+            component.error$,
             (user, isLoading, hasError, error) => {
                 return {
                     user: user,
@@ -84,11 +63,11 @@ describe('UserComponent', () => {
         const user = new User('first name', 'last name', 'email@test.com');
         const expectedAction = new dialogActions.CreateAction(user);
 
-        spyOn(userComponentInstance.store, 'dispatch');
+        spyOn(component.store, 'dispatch');
 
-        userComponentInstance.save(user);
+        component.save(user);
 
-        expect(userComponentInstance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+        expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     function assertUsersAreEqual(actual: User, expected: User) {

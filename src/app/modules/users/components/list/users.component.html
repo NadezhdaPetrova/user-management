@@ -29,3 +29,13 @@
         </div>
     </md-card-content>
 </md-card>
+
+<div bsModal #modal="bs-modal" (onHidden)="showDialog = false" class="modal fade" role="dialog">
+    <div *ngIf="showDialog" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-user (close)="modal.hide()"></app-user>
+            </div>
+        </div>
+    </div>
+</div>

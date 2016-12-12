@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
-import { UserComponent } from 'modules/users/components/form/user.component';
 import { User, SortDescriptor, SortDirection, PageInfo } from 'modules/users/models';
 import { ToastConfig } from 'modules/shared/components/toast/toast.config';
 
@@ -20,6 +19,9 @@ import * as fromRoot from 'reducers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent implements OnInit, OnDestroy {
+  @ViewChild(ModalDirective) dialog: ModalDirective;
+  showDialog: boolean;
+
   users$: Observable<Array<User>>;
   isLoading$: Observable<boolean>;
   hasError$: Observable<boolean>;
@@ -31,11 +33,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscriptions: Array<Subscription> = new Array<Subscription>();
 
-  constructor(
-    private store: Store<fromRoot.State>,
-    private dialog: MdDialog,
-    @Inject('Window') private window: any
-  ) { }
+  constructor(private store: Store<fromRoot.State>, @Inject('Window') private window: any) { }
 
   ngOnInit() {
     this.subscribeForUsersData();
@@ -53,13 +51,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    const dialogConfig = {
-      disableClose: true,
-      width: '80%',
-      height: '90%'
-    };
-
-    this.dialog.open(UserComponent, dialogConfig);
+    this.showDialog = true;
+    this.dialog.show();
   }
 
   sort(property) {

@@ -22,7 +22,6 @@ import { UserService } from './services/user.service';
     exports: [UsersComponent],
     imports: [SharedModule],
     providers: [UserService],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    entryComponents: [UserComponent]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UsersModule { }

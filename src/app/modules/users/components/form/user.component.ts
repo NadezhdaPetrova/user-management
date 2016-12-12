@@ -1,5 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { Component, Output, ChangeDetectionStrategy, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
@@ -19,6 +18,8 @@ import * as fromRoot from 'reducers';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserComponent implements OnInit, OnDestroy {
+    @Output() close: EventEmitter<void> = new EventEmitter<void>();
+
     user$: Observable<User>;
     isLoading$: Observable<boolean>;
     hasError$: Observable<boolean>;
@@ -26,7 +27,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     private subscriptions: Array<Subscription> = new Array<Subscription>();
 
-    constructor(private store: Store<fromRoot.State>, public dialogRef: MdDialogRef<UserComponent>) { }
+    constructor(private store: Store<fromRoot.State>) { }
 
     ngOnInit() {
         this.user$ = this.store.select(fromRoot.getDialogUser);
@@ -43,10 +44,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
     save(user: User) {
         this.store.dispatch(new dialogActions.CreateAction(user));
-    }
-
-    cancel() {
-        this.dialogRef.close();
     }
 
     private subscribeForUserSavedData() {
@@ -67,7 +64,7 @@ export class UserComponent implements OnInit, OnDestroy {
                 const toastConfig = new ToastConfig('User has been successfully saved!', 'success');
                 this.store.dispatch(new toastActions.ShowToastMessageAction(toastConfig));
 
-                this.dialogRef.close();
+                this.close.emit();
             }
         });
 

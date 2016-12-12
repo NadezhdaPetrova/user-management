@@ -5,7 +5,7 @@
 <alert type="danger" *ngIf="hasError$ | async">{{error$ | async}}</alert>
 
 <div class="content" [ngClass]="{disabled: (isLoading$ | async)}">
-    <app-user-form [user]="user$ | async" (save)="save($event)" (cancel)="cancel($event)"></app-user-form>
+    <app-user-form [user]="user$ | async" (save)="save($event)" (cancel)="close.emit()"></app-user-form>
 </div>
 
 <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary">
