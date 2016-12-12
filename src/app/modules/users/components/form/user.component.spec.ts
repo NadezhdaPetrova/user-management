@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { StoreModule } from '@ngrx/store';
-import { MdDialogModule, MdDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-
 import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
+import { MdDialogModule, MdDialog } from '@angular/material';
+import { StoreModule } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import { UserComponent } from './user.component';
 import { User } from 'modules/users/models';

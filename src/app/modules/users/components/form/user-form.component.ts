@@ -10,15 +10,11 @@ import { User } from 'modules/users/models';
 })
 export class UserFormComponent {
     @Input('user') set user(value: User) {
-        if (value) {
-            this.originalUser = value;
-        }
         this.selectedUser = Object.assign({}, value);
     }
     @Output() save: EventEmitter<User> = new EventEmitter<User>();
     @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
-    originalUser: User;
     selectedUser: User;
 
     today: Date = new Date();

@@ -1,8 +1,3 @@
-export enum SortDirection {
-    Ascending,
-    Descending
-}
-
 export class User {
     constructor(
         public firstName = '',
@@ -20,6 +15,11 @@ export class UsersInfo {
         public usersPerPage: number,
         public currentPage: number
     ) { }
+}
+
+export enum SortDirection {
+    Ascending,
+    Descending
 }
 
 export interface SortDescriptor {

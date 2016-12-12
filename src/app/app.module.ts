@@ -41,4 +41,5 @@ const WINDOW_PROVIDER: ValueProvider = {
   providers: [WINDOW_PROVIDER],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -79,24 +79,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new usersActions.LoadAction(nextPageInfo));
   }
 
-  private generateSortDescriptor(property): SortDescriptor {
-    let newSortDirection: SortDirection;
-
-    if (property === this.pageInfo.sort.property) {
-      newSortDirection = this.pageInfo.sort.direction === SortDirection.Ascending ?
-                            SortDirection.Descending : SortDirection.Ascending;
-    } else {
-        newSortDirection = SortDirection.Ascending;
-    }
-
-    const newSortDescriptor: SortDescriptor = {
-      property: property,
-      direction: newSortDirection
-    };
-
-    return newSortDescriptor;
-  }
-
   private subscribeForUsersData() {
     this.users$ = this.store.select(fromRoot.getUsersCollection);
     this.isLoading$ = this.store.select(fromRoot.getUsersIsLoading);
@@ -143,5 +125,23 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(subscription);
+  }
+
+  private generateSortDescriptor(property): SortDescriptor {
+    let newSortDirection: SortDirection;
+
+    if (property === this.pageInfo.sort.property) {
+      newSortDirection = this.pageInfo.sort.direction === SortDirection.Ascending ?
+                            SortDirection.Descending : SortDirection.Ascending;
+    } else {
+        newSortDirection = SortDirection.Ascending;
+    }
+
+    const newSortDescriptor: SortDescriptor = {
+      property: property,
+      direction: newSortDirection
+    };
+
+    return newSortDescriptor;
   }
 }

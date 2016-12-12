@@ -17,6 +17,7 @@ export class UsersListComponent {
     SortDirection = SortDirection;
 
     isColumnSorted(property: string, sortDirection: SortDirection) {
-        return this.currentSorting.property === property && this.currentSorting.direction === sortDirection;
+        return this.currentSorting.property === property
+            && this.currentSorting.direction === sortDirection;
     }
 }
