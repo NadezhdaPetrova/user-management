@@ -10,6 +10,7 @@ import { ToastConfig } from 'modules/shared/components/toast/toast.config';
 import * as usersActions from 'actions/users';
 import * as toastActions from 'actions/toast';
 import * as deletionActions from 'actions/deletion';
+import * as dialogActions from 'actions/dialog';
 import * as fromRoot from 'reducers';
 
 @Component({
@@ -51,8 +52,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    this.showDialog = true;
-    this.dialog.show();
+    this.openDialog();
   }
 
   sort(property) {
@@ -65,11 +65,21 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new deletionActions.DeleteAction(id));
   }
 
+  userSelected(id: number) {
+    this.store.dispatch(new dialogActions.LoadUserAction(id));
+    this.openDialog();
+  }
+
   pageChanged(nextPage) {
     this.window.scrollTo(0, 0);
 
     const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, { page: nextPage.page });
     this.store.dispatch(new usersActions.LoadAction(nextPageInfo));
+  }
+
+  dialogHidden() {
+    this.showDialog = false;
+    this.store.dispatch(new dialogActions.DiscardAction());
   }
 
   private subscribeForUsersData() {
@@ -136,5 +146,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     };
 
     return newSortDescriptor;
+  }
+
+  private openDialog() {
+    this.showDialog = true;
+    this.dialog.show();
   }
 }

@@ -22,12 +22,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users">
+            <tr *ngFor="let user of users" (click)="userSelected.emit(user.id)">
                 <td>{{user.firstName | contentFormat}}</td>
                 <td>{{user.lastName | contentFormat}}</td>
                 <td>{{user.email | contentFormat}}</td>
                 <td>{{user.dateOfBirth | contentFormat}}</td>
-                <td><div class="delete-button" (click)="delete.emit(user.id)"></div></td>
+                <td><div class="delete-button" (click)="deleteClicked(user.id, $event)"></div></td>
             </tr>
         </tbody>
     </table>

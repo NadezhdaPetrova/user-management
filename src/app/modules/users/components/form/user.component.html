@@ -1,11 +1,14 @@
 <div class="header">
-    <h3>Create user</h3>
+    <h3>
+        <span *ngIf="!(userExists$ | async)">Create user</span>
+        <span *ngIf="userExists$ | async">Edit user</span>
+    </h3>
 </div>
 
 <alert type="danger" *ngIf="hasError$ | async">{{error$ | async}}</alert>
 
 <div class="content" [ngClass]="{disabled: (isLoading$ | async)}">
-    <app-user-form [user]="user$ | async" (save)="save($event)" (cancel)="close.emit()"></app-user-form>
+    <app-user-form *ngIf="showForm$ | async" [user]="user$ | async" (save)="save($event)" (cancel)="close.emit()"></app-user-form>
 </div>
 
 <md-progress-circle class="loading-center" *ngIf="isLoading$ | async" mode="indeterminate" color="primary">

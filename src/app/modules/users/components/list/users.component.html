@@ -14,6 +14,7 @@
         <div *ngIf="!(hasError$ | async)">
             <app-users-list [users]="users$ | async" [currentSorting]="pageInfo.sort"
                 (sort)="sort($event)" (delete)="delete($event)"
+                (userSelected)="userSelected($event)"
                 [ngClass]="{disabled: (disableGrid$ | async)}">
             </app-users-list>
 
@@ -30,7 +31,7 @@
     </md-card-content>
 </md-card>
 
-<div bsModal #modal="bs-modal" (onHidden)="showDialog = false" class="modal fade" role="dialog">
+<div bsModal #modal="bs-modal" (onHidden)="dialogHidden()" class="modal fade" role="dialog">
     <div *ngIf="showDialog" class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">

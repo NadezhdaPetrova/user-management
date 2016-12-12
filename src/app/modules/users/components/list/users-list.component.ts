@@ -13,11 +13,17 @@ export class UsersListComponent {
     @Input() currentSorting;
     @Output() sort: EventEmitter<string> = new EventEmitter<string>();
     @Output() delete: EventEmitter<number> = new EventEmitter<number>();
+    @Output() userSelected: EventEmitter<number> = new EventEmitter<number>();
 
     SortDirection = SortDirection;
 
     isColumnSorted(property: string, sortDirection: SortDirection) {
         return this.currentSorting.property === property
             && this.currentSorting.direction === sortDirection;
+    }
+
+    deleteClicked(id: number, event) {
+        event.stopPropagation();
+        this.delete.emit(id);
     }
 }

@@ -24,6 +24,8 @@ export class UserComponent implements OnInit, OnDestroy {
     isLoading$: Observable<boolean>;
     hasError$: Observable<boolean>;
     error$: Observable<string>;
+    userExists$: Observable<boolean>;
+    showForm$: Observable<boolean>;
 
     private subscriptions: Array<Subscription> = new Array<Subscription>();
 
@@ -35,6 +37,18 @@ export class UserComponent implements OnInit, OnDestroy {
         this.hasError$ = this.store.select(fromRoot.getDialogHasError);
         this.error$ = this.store.select(fromRoot.getDialogError);
 
+        this.userExists$ = this.user$.map((user: User) => !!user.id);
+
+        this.showForm$ = Observable.combineLatest(this.userExists$, this.user$,
+            (userExists: boolean, user: User) => {
+                if (userExists) {
+                    // The first name is required field so we will use it to the determine if the user is loaded
+                    return !!user.firstName;
+                } else {
+                    return true;
+                }
+            });
+
         this.subscribeForUserSavedData();
     }
 
@@ -43,7 +57,11 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     save(user: User) {
-        this.store.dispatch(new dialogActions.CreateAction(user));
+        if (user.id) {
+            this.store.dispatch(new dialogActions.UpdateAction(user));
+        } else {
+            this.store.dispatch(new dialogActions.CreateAction(user));
+        }
     }
 
     private subscribeForUserSavedData() {

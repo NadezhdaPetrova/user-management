@@ -1,6 +1,6 @@
 <form #userForm="ngForm">
     <div>
-        <md-input placeholder="First name" required
+        <md-input placeholder="First name" required [value]="selectedUser.firstName"
                 [(ngModel)]="selectedUser.firstName" name="firstName" #firstName="ngModel">
         </md-input>
         <alert type="danger" [hidden]="firstName.valid || firstName.pristine">
@@ -8,7 +8,7 @@
         </alert>
     </div>
     <div>
-        <md-input placeholder="Last name" required
+        <md-input placeholder="Last name" required [value]="selectedUser.lastName"
                 [(ngModel)]="selectedUser.lastName" name="lastName" #lastName="ngModel">
         </md-input>
         <alert type="danger" [hidden]="lastName.valid || lastName.pristine">
@@ -16,7 +16,7 @@
         </alert>
     </div>
     <div>
-        <md-input type="email" placeholder="Email" required
+        <md-input type="email" placeholder="Email" required [value]="selectedUser.email"
                 pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                 [(ngModel)]="selectedUser.email" name="email" #email="ngModel">
         </md-input>

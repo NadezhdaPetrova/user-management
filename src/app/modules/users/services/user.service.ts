@@ -14,8 +14,11 @@ const sortDirectionValue = new Map()
 export class UserService {
     private serverUrl: string = 'https://w-user-management.herokuapp.com/users';
     private datePipe: DatePipe = new DatePipe('en-US');
+    private headers: Headers =  new Headers();
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        this.headers.append('Content-Type', 'application/json');
+    }
 
     getUsers(pageInfo?: PageInfo): Observable<UsersInfo> {
         const url = this.getServiceUrl(pageInfo);
@@ -26,25 +29,33 @@ export class UserService {
                             const usersInfo = this.generateUsersInfo(body);
                             return usersInfo;
                         })
-                        .catch(result => {
-                            const body = result.json();
-                            return Observable.throw(body.message);
-                        });
+                        .catch(result => this.handleError(result));
+    }
+
+    getUser(id: number): Observable<User> {
+        const url = this.serverUrl + '/' + id;
+
+        return this.http.get(url)
+            .map((result: Response) => result.json())
+            .catch(result => {
+                return this.handleError(result);
+            });
     }
 
     createUser(user: User): Observable<User> {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        const userToBeCreated = this.prepareUser(user);
 
-        const formattedDateOfBirth = this.datePipe.transform(user.dateOfBirth, 'y-MM-dd');
-        const userToBeCreated = Object.assign({}, user, { dateOfBirth: formattedDateOfBirth });
+        return this.http.post(this.serverUrl, JSON.stringify(userToBeCreated), { headers: this.headers })
+            .map((result: Response) => result.json())
+            .catch(result => this.handleError(result));
+    }
 
-        return this.http.post(this.serverUrl, JSON.stringify(userToBeCreated), { headers: headers })
-                        .map((result: Response) => result.json())
-                        .catch(result => {
-                            const body = result.json();
-                            return Observable.throw(body.message);
-                        });
+    updateUser(user: User): Observable<User> {
+        const userToBeUpdated = this.prepareUser(user);
+
+        return this.http.put(this.serverUrl, JSON.stringify(userToBeUpdated), { headers: this.headers })
+            .map((result: Response) => result.json())
+            .catch(result => this.handleError(result));
     }
 
     deleteUser(id: number) {
@@ -52,10 +63,7 @@ export class UserService {
 
         return this.http.delete(url)
             .map((result: Response) => true)
-            .catch(result => {
-                const body = result.json();
-                return Observable.throw(body.message);
-            });
+            .catch(result => this.handleError(result));
     }
 
     private getServiceUrl(pageInfo: PageInfo): string {
@@ -103,5 +111,16 @@ export class UserService {
         );
 
         return usersInfo;
+    }
+
+    private handleError(result): Observable<string> {
+        const body = result.json();
+        return Observable.throw(body.message);
+    }
+
+    private prepareUser(user) {
+        const formattedDateOfBirth = this.datePipe.transform(user.dateOfBirth, 'y-MM-dd');
+        const userToBeCreated = Object.assign({}, user, { dateOfBirth: formattedDateOfBirth });
+        return userToBeCreated;
     }
 }

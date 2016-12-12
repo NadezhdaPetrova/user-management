@@ -20,23 +20,50 @@ const initialState: State = {
 
 export function reducer(state: State = initialState, action: dialogActions.Actions | usersActions.Actions): State {
     switch (action.type) {
-        case dialogActions.ActionTypes.CREATE: {
+        case dialogActions.ActionTypes.LOAD_USER: {
+            const newState = {
+                isLoading: true,
+                user: {
+                    id: action.payload
+                }
+            };
+
+            return Object.assign({}, state, newState);
+        }
+        case dialogActions.ActionTypes.LOAD_USER_SUCCESS: {
+            const newState = {
+                isLoading: false,
+                user: action.payload
+            };
+
+            return Object.assign({}, state, newState);
+        }
+        case dialogActions.ActionTypes.LOAD_USER_FAIL: {
+            const newState = {
+                isLoading: false,
+                hasError: true,
+                error: action.payload
+            };
+
+            return Object.assign({}, state, newState);
+        }
+        case dialogActions.ActionTypes.CREATE:
+        case dialogActions.ActionTypes.UPDATE: {
             const newState = {
                 isLoading: true
             };
 
             return Object.assign({}, state, newState);
         }
-        case dialogActions.ActionTypes.CREATE_SUCCESS: {
+        case dialogActions.ActionTypes.SAVE_SUCCESS: {
             const newState = {
                 isLoading: false,
                 isUserSaved: true
-                // user: action.payload
             };
 
             return Object.assign({}, state, newState);
         }
-        case dialogActions.ActionTypes.CREATE_FAIL: {
+        case dialogActions.ActionTypes.SAVE_FAIL: {
             const newState = {
                 isLoading: false,
                 hasError: true,
@@ -48,6 +75,13 @@ export function reducer(state: State = initialState, action: dialogActions.Actio
         case usersActions.ActionTypes.LOAD: {
             const newState = {
                 isUserSaved: false
+            };
+
+            return Object.assign({}, state, newState);
+        }
+        case dialogActions.ActionTypes.DISCARD: {
+            const newState = {
+                user: new User()
             };
 
             return Object.assign({}, state, newState);
