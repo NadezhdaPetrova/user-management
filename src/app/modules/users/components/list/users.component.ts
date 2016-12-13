@@ -100,9 +100,23 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private subscribeForSuccessfulDeletion() {
     const isDeletionSuccessful$ = this.store.select(fromRoot.getDeletionIsSuccessful);
-    const subscription = isDeletionSuccessful$.subscribe((isDeleted: boolean) => {
-      if (isDeleted) {
-        this.store.dispatch(new usersActions.LoadAction(this.pageInfo));
+    const deletionInfo$ = Observable.combineLatest(isDeletionSuccessful$, this.users$,
+      (isDeleted: boolean, users: Array<User>) => {
+        return {
+          isDeleted: isDeleted,
+          usersCount: users.length
+        };
+      });
+
+    const subscription = deletionInfo$.subscribe(data => {
+      let pageInfo = this.pageInfo;
+      if (data.usersCount === 1) {
+        const newPage = this.pageInfo.page > 1 ? this.pageInfo.page - 1 : 1;
+        pageInfo = Object.assign({}, this.pageInfo, { page: newPage });
+      }
+
+      if (data.isDeleted) {
+        this.store.dispatch(new usersActions.LoadAction(pageInfo));
         const toastConfig = new ToastConfig('User has been successfully deleted!', 'success');
         this.store.dispatch(new toastActions.ShowToastMessageAction(toastConfig));
       }
