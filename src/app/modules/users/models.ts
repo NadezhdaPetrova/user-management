@@ -3,7 +3,7 @@ export class User {
         public firstName = '',
         public lastName = '',
         public email = '',
-        public dateOfBirth: Date = new Date(),
+        public dateOfBirth = '',
         public id?: number
     ) { }
 }

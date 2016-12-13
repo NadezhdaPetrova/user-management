@@ -18,11 +18,13 @@
                 [ngClass]="{disabled: (disableGrid$ | async)}">
             </app-users-list>
 
-            <div *ngIf="!((users$ | async).length) && !(isLoading$ | async)">
-                No users have been created yet.
-            </div>
+            <div *ngIf="!(isLoading$ | async)">
+                <div *ngIf="!((users$ | async).length)">
+                    No users have been created yet.
+                </div>
 
-            <app-users-pagination (pageChanged)="pageChanged($event)"></app-users-pagination>
+                <app-users-pagination *ngIf="(users$ | async).length" (pageChanged)="pageChanged($event)"></app-users-pagination>
+            </div>
         </div>
 
         <div *ngIf="hasError$ | async">
@@ -32,7 +34,7 @@
 </md-card>
 
 <div bsModal #modal="bs-modal" (onHidden)="dialogHidden()" class="modal fade" role="dialog">
-    <div *ngIf="showDialog" class="modal-dialog modal-lg">
+    <div *ngIf="showDialog" class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-body">
                 <app-user (close)="modal.hide()"></app-user>

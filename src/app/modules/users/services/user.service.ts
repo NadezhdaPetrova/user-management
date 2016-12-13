@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -13,7 +12,6 @@ const sortDirectionValue = new Map()
 @Injectable()
 export class UserService {
     private serverUrl: string = 'https://w-user-management.herokuapp.com/users';
-    private datePipe: DatePipe = new DatePipe('en-US');
     private headers: Headers =  new Headers();
 
     constructor(private http: Http) {
@@ -43,17 +41,13 @@ export class UserService {
     }
 
     createUser(user: User): Observable<User> {
-        const userToBeCreated = this.prepareUser(user);
-
-        return this.http.post(this.serverUrl, JSON.stringify(userToBeCreated), { headers: this.headers })
+        return this.http.post(this.serverUrl, JSON.stringify(user), { headers: this.headers })
             .map((result: Response) => result.json())
             .catch(result => this.handleError(result));
     }
 
     updateUser(user: User): Observable<User> {
-        const userToBeUpdated = this.prepareUser(user);
-
-        return this.http.put(this.serverUrl, JSON.stringify(userToBeUpdated), { headers: this.headers })
+        return this.http.put(this.serverUrl, JSON.stringify(user), { headers: this.headers })
             .map((result: Response) => result.json())
             .catch(result => this.handleError(result));
     }
@@ -116,11 +110,5 @@ export class UserService {
     private handleError(result): Observable<string> {
         const body = result.json();
         return Observable.throw(body.message);
-    }
-
-    private prepareUser(user) {
-        const formattedDateOfBirth = this.datePipe.transform(user.dateOfBirth, 'y-MM-dd');
-        const userToBeCreated = Object.assign({}, user, { dateOfBirth: formattedDateOfBirth });
-        return userToBeCreated;
     }
 }

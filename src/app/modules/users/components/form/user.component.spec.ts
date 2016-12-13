@@ -52,7 +52,7 @@ describe('UserComponent', () => {
 
         state.subscribe(data => {
             const emptyUser = new User();
-            assertUsersAreEqual(<User>data.user, emptyUser);
+            expect(data.user).toEqual(emptyUser);
             expect(data.isLoading).toBeFalsy();
             expect(data.hasError).toBeFalsy();
             expect(data.error).toBeNull();
@@ -69,15 +69,4 @@ describe('UserComponent', () => {
 
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
-
-    function assertUsersAreEqual(actual: User, expected: User) {
-        expect(Object.keys(actual).length).toBe(Object.keys(expected).length);
-        expect(actual.firstName).toBe(expected.firstName);
-        expect(actual.lastName).toBe(expected.lastName);
-        expect(actual.email).toBe(expected.email);
-        expect(actual.id).toBe(expected.id);
-        expect(actual.dateOfBirth.getFullYear()).toBe(expected.dateOfBirth.getFullYear());
-        expect(actual.dateOfBirth.getMonth()).toBe(expected.dateOfBirth.getMonth());
-        expect(actual.dateOfBirth.getDate()).toBe(expected.dateOfBirth.getDate());
-    }
 });

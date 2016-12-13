@@ -30,7 +30,9 @@
         </div>
     </div>
     <div>
-        <datepicker [(ngModel)]="selectedUser.dateOfBirth" name="dateOfBirth" [maxDate]="today"></datepicker>
+        <md-input type="date" name="dateOfBirth"
+            [(ngModel)]="selectedUser.dateOfBirth" [value]="selectedUser.dateOfBirth">
+        </md-input>
     </div>
     
     <div class="buttons">

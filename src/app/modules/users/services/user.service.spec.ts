@@ -124,10 +124,8 @@ describe('UserService tests', () => {
     });
 
     describe('createUser()', () => {
-        const dateOfBirth = new Date(2016, 11, 11);
-        const userMock: User = Object.freeze(new User('firstName', 'lastName', 'email@test.com', dateOfBirth));
-        const expectedRequestBody = Object.freeze(Object.assign({}, userMock, { dateOfBirth: '2016-12-11'}));
-        const responseMock = Object.freeze(Object.assign({}, expectedRequestBody, { id: 3 }));
+        const userMock: User = Object.freeze(new User('firstName', 'lastName', 'email@test.com', '2016-12-11'));
+        const responseMock = Object.freeze(Object.assign({}, userMock, { id: 3 }));
 
         it('should return the created user', async(inject([UserService, MockBackend],
         (userService: UserService, mockBackend: MockBackend) => {
@@ -135,7 +133,7 @@ describe('UserService tests', () => {
                 const request = connection.request;
                 expect(request.url.endsWith('/users')).toBeTruthy();
                 expect(request.method).toBe(RequestMethod.Post);
-                expect(request.getBody()).toEqual(JSON.stringify(expectedRequestBody));
+                expect(request.getBody()).toEqual(JSON.stringify(userMock));
                 expect(request.headers.get('content-type')).toBe('application/json');
 
                 connection.mockRespond(new Response(new ResponseOptions({

@@ -24,6 +24,4 @@ export class UserFormComponent {
     @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
     selectedUser: User;
-
-    today: Date = new Date();
 }
