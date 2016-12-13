@@ -5,6 +5,16 @@
 
     <md-card-actions>
         <button md-raised-button color="primary" (click)="create()">Create User</button>
+
+        <div id="page-size-selector">
+            <span>Users per page: </span>
+            <select [value]="pageInfo.size" (change)="pageSizeChanged($event.target.value)">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
     </md-card-actions>
     
     <md-card-content>

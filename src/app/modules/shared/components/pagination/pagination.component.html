@@ -1,4 +1,4 @@
 <pagination [boundaryLinks]="true" [directionLinks]="true" [totalItems]="totalItems"
-        [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged.emit($event)"
+        [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged.emit($event.page)"
         class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
 </pagination>

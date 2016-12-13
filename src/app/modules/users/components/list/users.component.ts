@@ -71,9 +71,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(nextPage) {
+    if (this.pageInfo.page === nextPage) {
+      return;
+    }
+
     this.window.scrollTo(0, 0);
 
-    const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, { page: nextPage.page });
+    const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, { page: nextPage });
+    this.store.dispatch(new usersActions.LoadAction(nextPageInfo));
+  }
+
+  pageSizeChanged(size) {
+    const nextPageInfo: PageInfo = Object.assign({}, this.pageInfo, {
+      page: 1,
+      size: size
+    });
     this.store.dispatch(new usersActions.LoadAction(nextPageInfo));
   }
 

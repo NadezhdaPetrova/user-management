@@ -11,12 +11,12 @@ md-card {
 
 @media only screen and (min-width: 500px) {
     md-card-title {
-        width: 75%;
+        width: 55%;
         float: left;
     }
 
     md-card-actions {
-        width: 20%;
+        width: 40%;
         text-align: right;
         float: right;
         margin-top: 1.4rem;
@@ -29,4 +29,8 @@ md-card-actions {
 
 md-card-content {
     clear: both;
+}
+
+#page-size-selector {
+    margin: 15px 0 5px 0;
 }
