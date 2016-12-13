@@ -44,7 +44,7 @@
 </md-card>
 
 <div bsModal #modal="bs-modal" (onHidden)="dialogHidden()" class="modal fade" role="dialog">
-    <div *ngIf="showDialog" class="modal-dialog modal-sm">
+    <div *ngIf="showDialog" class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
                 <app-user (close)="modal.hide()"></app-user>

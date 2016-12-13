@@ -1,0 +1,7 @@
+<md-input [(ngModel)]="value" [value]="value" placeholder="{{placeholder}}" 
+    (focus)="onFocus()" (blur)="onBlur()" [readonly]="true">
+</md-input>
+
+<span class="remove" (click)="removeDate()">x</span>
+
+<datepicker *ngIf="showDatepicker" [(ngModel)]="date" [maxDate]="today"></datepicker>

@@ -81,7 +81,9 @@ export function reducer(state: State = initialState, action: dialogActions.Actio
         }
         case dialogActions.ActionTypes.DISCARD: {
             const newState = {
-                user: new User()
+                user: new User(),
+                hasError: false,
+                error: null
             };
 
             return Object.assign({}, state, newState);
