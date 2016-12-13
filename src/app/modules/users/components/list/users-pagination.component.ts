@@ -7,7 +7,7 @@ import * as fromRoot from 'reducers';
 @Component({
     selector: 'app-users-pagination',
     template: `
-        <app-pagination *ngIf="showNavigation$ | async"
+        <app-pagination
             [totalItems]="totalUsers$ | async" [currentPage]="currentPage$ | async" 
             [itemsPerPage]="usersPerPage$ | async" (pageChanged)="pageChanged.emit($event)">
         </app-pagination>`,
@@ -27,8 +27,5 @@ export class UsersPaginationComponent implements OnInit {
         this.totalUsers$ = this.store.select(fromRoot.getPaginationTotalUsers);
         this.usersPerPage$ = this.store.select(fromRoot.getPaginationUsersPerPage);
         this.currentPage$ = this.store.select(fromRoot.getPaginationCurrentPage);
-
-        this.showNavigation$ = Observable.combineLatest(this.totalUsers$, this.usersPerPage$,
-            (totalUsers: number, usersPerPage: number) => totalUsers > usersPerPage);
     }
 }
