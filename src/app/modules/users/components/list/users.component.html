@@ -43,7 +43,7 @@
     </md-card-content>
 </md-card>
 
-<div bsModal #modal="bs-modal" (onHidden)="dialogHidden()" class="modal fade" role="dialog">
+<div bsModal #modal="bs-modal" (onHidden)="dialogHidden()" class="modal fade" role="dialog" tabindex="-1">
     <div *ngIf="showDialog" class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
