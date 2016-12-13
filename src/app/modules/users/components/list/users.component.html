@@ -28,13 +28,11 @@
                 [ngClass]="{disabled: (disableGrid$ | async)}">
             </app-users-list>
 
-            <div *ngIf="!(isLoading$ | async)">
-                <div *ngIf="!((users$ | async).length)">
-                    No users have been created yet.
-                </div>
-
-                <app-users-pagination *ngIf="(users$ | async).length" (pageChanged)="pageChanged($event)"></app-users-pagination>
+            <div *ngIf="!((users$ | async).length) && !(isLoading$ | async)">
+                No users have been created yet.
             </div>
+
+            <app-users-pagination *ngIf="(users$ | async).length" (pageChanged)="pageChanged($event)"></app-users-pagination>
         </div>
 
         <div *ngIf="hasError$ | async">
