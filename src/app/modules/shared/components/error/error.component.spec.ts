@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ErrorComponent } from './error.component';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap/alert';
 
 describe('ErrorComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [ErrorComponent],
-            imports: [AlertModule]
+            imports: [AlertModule.forRoot()]
         });
     });
 

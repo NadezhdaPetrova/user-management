@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "app",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "baseUrl": "app",
     "lib": ["es6", "dom"],
     "mapRoot": "./",
     "module": "es6",

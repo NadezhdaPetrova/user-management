@@ -107,7 +107,7 @@ export class UserService {
         return usersInfo;
     }
 
-    private handleError(result): Observable<string> {
+    private handleError(result) {
         const body = result.json();
         return Observable.throw(body.message);
     }

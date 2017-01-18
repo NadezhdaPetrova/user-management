@@ -115,7 +115,7 @@ describe('UserService tests', () => {
             });
 
             userService.getUsers(pageInfoMock).subscribe(
-                () => { throw 'The GET request was supposed to fail'; },
+                () => { throw new Error('The GET request was supposed to fail'); },
                 (error: string) => {
                     expect(error).toBe(errorResponseMock.message);
                 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs';
-import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+import { Subscription } from 'rxjs/Rx';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 import { User, SortDescriptor, SortDirection, PageInfo } from 'modules/users/models';
 import { ToastConfig } from 'modules/shared/components/toast/toast.config';
@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   disableGrid$: Observable<boolean>;
 
-  private pageInfo: PageInfo;
+  pageInfo: PageInfo;
 
   private subscriptions: Array<Subscription> = new Array<Subscription>();
 
