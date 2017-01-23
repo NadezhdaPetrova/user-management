@@ -16,7 +16,6 @@ import { DeletionEffects } from 'effects/deletion';
 import { ToastEffects } from 'effects/toast';
 
 import { WindowRefService } from 'services/window-ref.service';
-import { WindowRefService } from 'services/window-ref.service';
 
 import { reducer } from 'reducers';
 
