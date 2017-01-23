@@ -7,6 +7,8 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
 import { User, SortDescriptor, SortDirection, PageInfo } from 'modules/users/models';
 import { ToastConfig } from 'modules/shared/components/toast/toast.config';
 
+import { WindowRefService } from 'services/window-ref.service';
+
 import * as usersActions from 'actions/users';
 import * as toastActions from 'actions/toast';
 import * as deletionActions from 'actions/deletion';
@@ -32,9 +34,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   pageInfo: PageInfo;
 
+  private window: Window;
   private subscriptions: Array<Subscription> = new Array<Subscription>();
 
-  constructor(private store: Store<fromRoot.State>, @Inject('Window') private window: any) { }
+  constructor(private store: Store<fromRoot.State>, windowRef: WindowRefService) {
+    this.window = windowRef.nativeWindow;
+  }
 
   ngOnInit() {
     this.subscribeForUsersData();

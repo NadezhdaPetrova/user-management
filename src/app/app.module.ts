@@ -15,12 +15,10 @@ import { DialogEffects } from 'effects/dialog';
 import { DeletionEffects } from 'effects/deletion';
 import { ToastEffects } from 'effects/toast';
 
-import { reducer } from 'reducers';
+import { WindowRefService } from 'services/window-ref.service';
+import { WindowRefService } from 'services/window-ref.service';
 
-const WINDOW_PROVIDER: ValueProvider = {
-    provide: 'Window',
-    useValue: window
-};
+import { reducer } from 'reducers';
 
 @NgModule({
   declarations: [
@@ -38,7 +36,7 @@ const WINDOW_PROVIDER: ValueProvider = {
     EffectsModule.run(DeletionEffects),
     EffectsModule.run(ToastEffects)
   ],
-  providers: [WINDOW_PROVIDER],
+  providers: [WindowRefService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
